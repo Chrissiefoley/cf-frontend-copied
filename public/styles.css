@@ -19,3 +19,16 @@ body {
     border: 1px solid #ddd;
     background: #f9f9f9;
   }
+
+  /* .searchBar {
+
+  }
+
+  .title {
+
+  } */
+
+  .main-background {
+    background-image: linear-gradient(to top, #ff9a9e 0%, #fecfef 99%, #fecfef 100%);
+  }
+
