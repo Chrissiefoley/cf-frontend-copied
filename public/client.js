@@ -1,4 +1,5 @@
 // Writing a function to communicate with our local server
+import '../src/index.js'
 
 const getMessages = async () => {
   const resultElement = document.getElementById("result");
