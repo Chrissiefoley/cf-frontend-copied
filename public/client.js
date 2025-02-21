@@ -51,9 +51,9 @@ const postMessage = async () => {
 document
   .getElementById("callFunction")
   .addEventListener("click", getMessages);
-  .getElementById("searchLibrary")
-  .addEventListener("click", getBookDetails);
-  .addEventListener("click", postRatingAndReview);
+  // .getElementById("searchLibrary")
+  // .addEventListener("click", getBookDetails);
+  // .addEventListener("click", postRatingAndReview);
   // .addEventListened("click", postMessage) - To post a message when clicking button. 
 
 // To begin try adding another button to use the postMessage function
