@@ -1,12 +1,28 @@
-
 body {
-    background: linear-gradient(135deg, #9073ae 0%, #8199c3 100%);
+    background-color: #f5e1c0;
+    /* background-image:
+    linear-gradient(90deg, rgba(0,0,0,0.1) 8px, transparent 1px),
+    linear-gradient(180deg, rgba(0,0,0,0.1) 8px, transparent 1px); */
+    background-size: 50px 120px; 
     color: #fff;
     font-family: 'Arial', sans-serif;
     margin: 100px 500px;
     padding: 20px;
 }
 
+/* body {
+ background-image: url("wooden-table-with-blurred-background.avif");
+ background-size: cover;
+ background-repeat: no-repeat;
+ background-color: #cccccc;
+ background-position: center center;
+ background-attachment: fixed;
+} */
+
+.pagetitle {
+    color: #ad8ac6;
+    text-align: center;
+}
 
 header {
     background-color: #ad8ac6;
@@ -14,6 +30,11 @@ header {
     text-align: center;
     font-size: 2em;
     font-weight: bold;
+}
+
+.searchbar{
+    justify-items: center;
+    align-content: space-between;
 }
 
 
@@ -56,11 +77,46 @@ footer {
     bottom: 0;
 }
 
-h3 {
+h2 {
     color: #dda0dd;
+    text-decoration: none;
+    padding-left: 50px;
+}
+
+h3 {
+    color: #765376;
     text-decoration: none;
 }
 
 .navbar {
   padding: 10px;
+  align-content: space-between;
+  justify-items: center;
+  
 }
+
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); 
+    grid-gap: 10px; 
+}
+
+
+
+.cardcontainer {
+    display: grid;
+    grid-template-columns: 1fr; 
+    grid-gap: 10px;
+    justify-items: center; 
+}
+
+.card {
+    background-color: #da9c9c;
+    padding: 20px;
+    text-align: center;
+    width: 300px; 
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+}
+

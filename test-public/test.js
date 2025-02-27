@@ -1,17 +1,117 @@
 const React = window.React;
 const ReactDOM = window.ReactDOM;
-const { useState, useRef, useEffect } = React;
-// const { useNavigate } = ReactRouterDOM;
+const { useState, useRef, useEffect, useNavigate } = React;
 
-const topBooks = ["book1", "book2", "book3", "book4", "book5"];
+const getBooks = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
+    const response = await fetch(`/api/books?${queryParams}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+window.getBooks = getBooks;
+
+const getReviews = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
+    const response = await fetch(`/api/ratings?${queryParams}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+
+const postBook = async () => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/new_book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "If you can see this POST is working :)",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+const removeBook = async () => {
+  const response = await fetch(`/api/remove_book`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: "If you can see this DELETE is working :)",
+    })
+  }); return response;
+}
+
+const handleNavigate = (hash, orderBy, orderDir) => {
+  window.location.hash = hash;
+  getBooks(orderBy, orderDir);
+}
+
+const fetchBooks = () => {
+    getBooks("book.title")
+};
+  
+const fetchReviews = () => {
+    getReviews("book.rating")
+};
+  
 
 const HeaderNav = () => {
   return (
     <div className="navbar">
       <nav className="navbar">
         <a href="#home">Home</a>
-        <a href="#myBooks">My books</a>
-        <a href="#myReviews">My reviews</a>
+        <a href="#myBooks" onClick={fetchBooks}>My books</a>
+        <a href="#myReviews" onClick={fetchReviews}>My reviews</a>
         <a href="#allBooks">All books</a>
       </nav>
     </div>
@@ -21,7 +121,6 @@ const HeaderNav = () => {
 const SearchBar = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filtered, setFiltered] = useState([]);
 
   useEffect(() => {
     const fetchBooks = async () => {
@@ -36,14 +135,15 @@ const SearchBar = () => {
     fetchBooks();
   }, []);
 
-  // const filteredBooks = books.filter((book) =>
-  //   book.book_title.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-  // setFiltered(filteredBooks);
+
+const handleSearch = () => {
+    // getBooks("book.title")
+  };
 
   return (
     <div>
       <input
+        className="searchbar"
         type="text"
         placeholder="Search for a book"
         value={searchTerm}
@@ -51,115 +151,80 @@ const SearchBar = () => {
           setSearchTerm(e.target.value);
         }}
       />
-      <button onClick={{}}>Search for book</button>
+      <button onClick={handleSearch}>Search for book</button>
+      <div id="result"></div>
     </div>
   );
 };
 
-const TopRated = () => {
-  //   const navigate = React.useNavigate();
-  const [topFiveList, setTopFiveList] = React.useState([]);
+// function BookList() {
+//   return (
+//     <Grid container spacing={2}>
+//   <Grid size={8}>
+//     <Item>size=8</Item>
+//   </Grid>
+//   <Grid size={4}>
+//     <Item>size=4</Item>
+//   </Grid>
+//   <Grid size={4}>
+//     <Item>size=4</Item>
+//   </Grid>
+//   <Grid size={8}>
+//     <Item>size=8</Item>
+//   </Grid>
+//     </Grid>
+//   )
+// }
 
-  const dragBook = React.useRef(0);
-  const draggedOverBook = React.useRef(0);
-  const [bookItem, setBookItem] = React.useState("");
+const handleRemove = () => {
+  const removeBook = async () => {
+  const response = await fetch(`/api/remove_book`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: "If you can see this DELETE is working :)",
+    })
+  }); return response;
+  }
+}
 
-  React.useEffect(() => {
-    const getFavouriteBooks = async () => {
-      try {
-        const response = await fetch("/api/books");
-        const myData = await response.json();
-        const topBooks = myData.slice(0, 5);
-        setTopFiveList(topBooks);
-      } catch (error) {
-        console.error("Couldnt fetch favourite books");
-      }
-    };
-    getFavouriteBooks();
-  }, []);
-
-  const handleSort = () => {
-    const topFiveClone = [...topFiveList];
-    const temp = topFiveClone[dragBook.current];
-    topFiveClone[dragBook.current] = topFiveClone[draggedOverBook.current];
-    topFiveClone[draggedOverBook.current] = temp;
-    setTopFiveList(topFiveClone);
-  };
-
-  const handleClick = () => {
-    if (topFiveList.length < 5) {
-      setTopFiveList([...topFiveList, bookItem]);
-      // setBookItem({});
-    }
-  };
-
-  // const handleViewPersonalClick = () => {
-  //   navigate("/myBooks");
-  // };
-
-  // const handleViewAllClick = () => {
-  //   navigate("/allBooks");
-  // };
-
-  // const handleViewMyRatingsClick = () = {
-  //   navigate("/myRatings");
-  // }
-
-  const removeItem = (index) => {
-    const newTopFiveList = topFiveList.filter((bookItem, i) => i !== index);
-    setTopFiveList(newTopFiveList);
-  };
-
-  const makeFavourite = (index) => {
-    const newTopFiveList = [...topFiveList];
-    const [movedItem] = newTopFiveList.splice(index, 1);
-    newTopFiveList.unshift(movedItem);
-    setTopFiveList(newTopFiveList);
-  };
-
+function BookCard() {
   return (
-    <>
-      <h2>My Top 5 Favourite Books</h2>
-      <ul>
-        {topFiveList.map((bookItem, index) => (
-          <div
-            key={index}
-            className="top_five"
-            draggable
-            onDragStart={() => {
-              dragBook.current = index;
-            }}
-            onDragEnter={() => {
-              draggedOverBook.current = index;
-            }}
-            onDragEnd={handleSort}
-            onDragOver={(event) => event.preventDefault()}
-          >
-            <li>
-              {bookItem.book_title}
-              <button
-                className="remove_button"
-                onClick={() => removeItem(index)}
-              >
-                Remove Book from Favourite books
-              </button>
-              <button
-                className="favourite_button"
-                onClick={() => makeFavourite(index)}
-              >
-                Make favourite book
-              </button>
-            </li>
-          </div>
-        ))}
-      </ul>
-      <button>View all my book ratings</button>
-      <button>Set new top 5 books</button>
-    </>
-  );
-};
+    <div className="cardcontainer">
+      <div className="card">
+        <h3>Book</h3>
+        <p>Author</p>
+        <p>Description</p>
+        <p>Rating</p>
+        <button onClick={handleRemove}>Remove book from library</button>
+        {/* <button onClick={handleEdit}>Edit book</button> */}
+        </div>
+    </div>
+  )
+}
 
-function BookCount() {
+
+function BookList() {
+  // useEffect - use this to update it so when 
+  return (
+    <div><h2>My Book List</h2>
+  <div className="container">
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      <BookCard />
+      {/* <button className="button">Remove book from library</button> */}
+      </div>
+      </div>
+)
+    }
+
+
+function BookCount(data) {
   const [count, setCount] = React.useState(0);
   React.useEffect(() => {
     const getBookCount = async () => {
@@ -167,25 +232,26 @@ function BookCount() {
         const response = await fetch("/api/books");
         const myData = await response.json();
         setCount(data.count);
+        console.log(data.count);
       } catch (error) {
         console.error("Couldnt fetch book count");
       }
     };
     getBookCount();
   }, []);
-  return <h3>Book count: {count}</h3>;
+  return <h2>Book count: {count}</h2>;
 }
 
 function App() {
   return (
-    <>
+    <div>
       <HeaderNav />
-      <h1>Personal Book Library</h1>
+      <h1 className="pagetitle">Personal Book Library</h1>
       <SearchBar />
-      <TopRated />
-      {/* <BookList /> */}
+      {/* <TopRated /> */}
+      <BookList />
       <BookCount />
-    </>
+    </div>
   );
 }
 

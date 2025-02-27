@@ -1,13 +1,12 @@
 // Writing a function to communicate with our local server
-import "../my-app/src/index.js";
+// import '../src/index.js'
 
-const getBooks = async (orderBy, orderDir) => {
+const getBooks = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
   try {
     const response = await fetch(`/api/books`, {
-      params: {orderBy, orderDir},
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -35,9 +34,7 @@ const postBook = async () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({
-        message: "If you can see this POST is working :)",
-      }),
+      body: JSON.stringify({ message: "If you can see this POST is working :)" }),
     });
 
     if (!response.ok) {
@@ -51,10 +48,12 @@ const postBook = async () => {
   }
 };
 
-document.getElementById("callFunction").addEventListener("click", getBooks);
-// .getElementById("searchLibrary")
-// .addEventListener("click", getBookDetails);
-// .addEventListener("click", postRatingAndReview);
-// .addEventListened("click", postMessage) - To post a message when clicking button.
+document
+  .getElementById("callFunction")
+  .addEventListener("click", getBooks);
+  // .getElementById("searchLibrary")
+  // .addEventListener("click", getBookDetails);
+  // .addEventListener("click", postRatingAndReview);
+  // .addEventListened("click", postMessage) - To post a message when clicking button. 
 
 // To begin try adding another button to use the postMessage function

@@ -7,10 +7,14 @@ const dotenv = require('dotenv');
 // Load environment variables
 dotenv.config();
 
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY; 
+
+console.log("SUPABASE_URL:", SUPABASE_URL);
+console.log("SUPABASE_ANON_KEY:", SUPABASE_ANON_KEY);
 
 // Middleware
 app.use(cors());
@@ -69,7 +73,30 @@ app.get("/api/books", async (req, res) => {
 });
 
 
-// New DELETE endpoint
+// New DELETE endpoint\
+// app.get("/api/books", async (req, res) => {
+//   try {
+//     // Call the Supabase Edge Function for books
+//     const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {
+//       method: "GET",
+//       headers: {
+//         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(
+//         `Supabase returned ${response.status}: ${response.statusText}`
+//       );
+//     }
+
+//     const data = await response.json();
+//     res.json(data);
+//   } catch (error) {
+//     console.error("GET request error:", error);
+//     res.status(500).json({ error: error.message });
+//   }
+// });
 
 
 // New PUT(Update) endpoint
