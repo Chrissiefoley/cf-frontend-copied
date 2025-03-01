@@ -20,12 +20,12 @@ body {
 } */
 
 .pagetitle {
-    color: #ad8ac6;
+    color: #A74165;
     text-align: center;
 }
 
 header {
-    background-color: #ad8ac6;
+    background-color: #7600A8;
     padding: 20px;
     text-align: center;
     font-size: 2em;
@@ -57,9 +57,8 @@ button:hover {
     background-color: #5d3fd3;
 }
 
-/* Link styling */
 a {
-    color: #dda0dd;
+    color: #a70C25;
     text-decoration: none;
 }
 
@@ -67,7 +66,6 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Footer styling */
 footer {
     background-color: #4b0082;
     padding: 10px;
@@ -78,17 +76,18 @@ footer {
 }
 
 h2 {
-    color: #dda0dd;
+    color: #3C1362;
     text-decoration: none;
     padding-left: 50px;
 }
 
 h3 {
-    color: #765376;
+    color: #A74165;
     text-decoration: none;
 }
 
 .navbar {
+  color: #a70C25;
   padding: 10px;
   align-content: space-between;
   justify-items: center;

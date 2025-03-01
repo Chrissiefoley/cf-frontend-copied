@@ -3,7 +3,7 @@ const ReactDOM = window.ReactDOM;
 const { useState, useRef, useEffect, useNavigate } = React;
 
 const getBooks = async (orderBy, orderDir) => {
-  const resultElement = document.getElementById("result");
+  const resultElement = document.getElementById("list_result");
   resultElement.textContent = "Loading...";
 
   try {
@@ -20,16 +20,15 @@ const getBooks = async (orderBy, orderDir) => {
     }
 
     const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    return data; 
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
+    throw error;
   }
 };
 
-window.getBooks = getBooks;
-
-const getReviews = async (orderBy, orderDir) => {
-  const resultElement = document.getElementById("result");
+const getRatings = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("ratings_result");
   resultElement.textContent = "Loading...";
 
   try {
@@ -53,12 +52,12 @@ const getReviews = async (orderBy, orderDir) => {
 };
 
 
-const postBook = async () => {
-  const resultElement = document.getElementById("result");
+const postBook = async (newBook) => {
+  const resultElement = document.getElementById("add_result");
   resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/new_book`, {
+    const response = await fetch(`/api/books`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -79,8 +78,8 @@ const postBook = async () => {
   }
 };
 
-const removeBook = async () => {
-  const response = await fetch(`/api/remove_book`, {
+const removeBook = async (book_id) => {
+  const response = await fetch(`/api/books`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
@@ -100,9 +99,11 @@ const fetchBooks = () => {
     getBooks("book.title")
 };
   
+
 const fetchReviews = () => {
-    getReviews("book.rating")
+    getRatings("book.rating")
 };
+
   
 
 const HeaderNav = () => {
@@ -118,27 +119,18 @@ const HeaderNav = () => {
   );
 };
 
-const SearchBar = () => {
-  const [books, setBooks] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    const fetchBooks = async () => {
-      try {
-        const response = await fetch(`/api/books`);
-        const data = await response.json();
-        setBooks(data);
-      } catch (error) {
-        console.log("Error fetching book:", error);
-      }
-    };
-    fetchBooks();
+const SearchBar = () => {
+  const [books, setBooks] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  React.useEffect(() => {
+     getBooks ("book.title", "asc"); 
   }, []);
 
-
-const handleSearch = () => {
+  const handleSearch = () => {
     // getBooks("book.title")
-  };
+};
 
   return (
     <div>
@@ -156,6 +148,86 @@ const handleSearch = () => {
     </div>
   );
 };
+
+ const handleAdd = () => {
+    postBook(newBook);
+  }
+
+
+
+const AddBookCard = () => {
+  // const [newBookCardOpen, setNewBookCardOpen] = useState(false);
+  const [newBook, setNewBook] = React.useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '' })
+  const [newTitle, setNewTitle] = React.useState("")
+  const [newAuthor, setNewAuthor] = React.useState("")
+  const [newPublishedDate, setNewPublishedDate] = React.useState("")
+  const [newGenre, setNewGenre] = React.useState("")
+  const [newDescription, setNewDescription] = React.useState("")
+
+
+  return (
+    // newBookCardOpen &&
+    (
+      <div className="cardcontainer" id="add_result">
+        <div className="card">
+          <input
+            className="inputBar"
+            type="text"
+            placeholder="Name"
+            name="book_title"
+            value={newTitle}
+            onChange={(e) => {
+              setNewTitle(e.target.value)
+            }}
+          />
+          <input
+            className="inputBar"
+            type="text"
+            placeholder="Author name"
+            name="book_author"
+            value={newAuthor}
+            onChange={(e) => {
+              setNewAuthor(e.target.value)
+            }}
+          />
+          <input
+            className="inputBar"
+            type="text"
+            placeholder="Published date"
+            name="book_publishedDate"
+            value={newPublishedDate}
+            onChange={(e) => {
+              setNewPublishedDate(e.target.value)
+            }}
+          />
+          <input
+            className="inputBar"
+            type="text"
+            placeholder="Genre"
+            name="book_genre"
+            value={newGenre}
+            onChange={(e) => {
+              setNewGenre(e.target.value)
+            }}
+          />
+          <input
+            className="inputBar"
+            type="text"
+            placeholder="Description"
+            name="book_description"
+            value={newDescription}
+            onChange={(e) => {
+              setNewDescription(e.target.value)
+            }}
+          />
+          <div>
+            <button onClick={handleAdd}>Add book to my library</button>
+          </div>
+        </div>
+      </div>
+    ))
+};
+
 
 // function BookList() {
 //   return (
@@ -176,23 +248,15 @@ const handleSearch = () => {
 //   )
 // }
 
-const handleRemove = () => {
-  const removeBook = async () => {
-  const response = await fetch(`/api/remove_book`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message: "If you can see this DELETE is working :)",
-    })
-  }); return response;
-  }
-}
 
 function BookCard() {
+
+  const handleRemove = () => {
+  removeBook();
+}
+  
   return (
-    <div className="cardcontainer">
+    <div className="cardcontainer" id="list_result">
       <div className="card">
         <h3>Book</h3>
         <p>Author</p>
@@ -207,32 +271,54 @@ function BookCard() {
 
 
 function BookList() {
-  // useEffect - use this to update it so when 
+  const [showBookList, setShowBookList] = React.useState(false);
+
+  const handleClick = () => {
+    setShowBookList()
+  }
+
+   React.useEffect(() => {
+    const retrieveBookList = async () => {
+      try {
+        const data = await getBooks("title", "asc");
+        console.log(data);
+      } catch (error) {
+        console.error("Couldnt fetch book count");
+      }
+    };
+    retrieveBookList();
+  }, []);
+
   return (
-    <div><h2>My Book List</h2>
-  <div className="container">
+    <div id="ratings_result">
+      <h2>My Book List</h2>
+      <div className="container" >
       <BookCard />
       <BookCard />
       <BookCard />
       <BookCard />
       <BookCard />
       <BookCard />
-      {/* <button className="button">Remove book from library</button> */}
       </div>
+      <div>
+        <button className="button" onClick={handleAdd}>Add new book to library</button>
+        </div>
       </div>
 )
     }
 
 
-function BookCount(data) {
+
+
+function BookCount() {
   const [count, setCount] = React.useState(0);
+
   React.useEffect(() => {
     const getBookCount = async () => {
       try {
-        const response = await fetch("/api/books");
-        const myData = await response.json();
-        setCount(data.count);
-        console.log(data.count);
+        const data = await getBooks("title", "asc");
+        setCount(data.length);
+        console.log(data.length);
       } catch (error) {
         console.error("Couldnt fetch book count");
       }
@@ -248,6 +334,7 @@ function App() {
       <HeaderNav />
       <h1 className="pagetitle">Personal Book Library</h1>
       <SearchBar />
+      <AddBookCard />
       {/* <TopRated /> */}
       <BookList />
       <BookCount />

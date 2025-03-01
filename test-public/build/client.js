@@ -64,6 +64,70 @@ export const removeBook = async () => {
 }
 
 
+
+export const getFavourites = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/favourites`, {
+      params: {orderBy, orderDir},
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+export const postFavourites = async () => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/new_favourites`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "If you can see this POST is working :)",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+export const removeFavourite = async () => {
+  const response = await fetch(`/api/remove_favourite`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: "If you can see this DELETE is working :)",
+    })
+  }); return response;
+}
+
+
 // .getElementById("searchLibrary")
 // .addEventListener("click", getBookDetails);
 // .addEventListener("click", postRatingAndReview);

@@ -102,7 +102,6 @@
 // }
 
 // const TopRated = () => {
-//   //   const navigate = React.useNavigate();
 //   const [topFiveList, setTopFiveList] = React.useState([]);
 
 //   const dragBook = React.useRef(0);
