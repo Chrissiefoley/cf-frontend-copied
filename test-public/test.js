@@ -20,12 +20,15 @@ const getBooks = async (orderBy, orderDir) => {
     }
 
     const data = await response.json();
+    console.log(data);
+    resultElement.innerHTML = data.map(book => 
+      `<BookCard index=${book.book_id}>${book.book_title} - ${book.book_author} - ${book.book_description}/>`).join('');
+
     return data; 
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
     throw error;
-  }
-};
+}};
 
 const getRatings = async (orderBy, orderDir) => {
   const resultElement = document.getElementById("ratings_result");
@@ -46,6 +49,7 @@ const getRatings = async (orderBy, orderDir) => {
 
     const data = await response.json();
     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    return data;
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
   }
@@ -73,6 +77,35 @@ const postBook = async (newBook) => {
 
     const data = await response.json();
     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log(data);
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+
+const postReview = async (newReview) => {
+  const resultElement = document.getElementById("add_review_result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/ratings`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message: "If you can see this POST is working :)",
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log(data);
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
   }
@@ -104,55 +137,6 @@ const fetchReviews = () => {
     getRatings("book.rating")
 };
 
-  
-
-const HeaderNav = () => {
-  return (
-    <div className="navbar">
-      <nav className="navbar">
-        <a href="#home">Home</a>
-        <a href="#myBooks" onClick={fetchBooks}>My books</a>
-        <a href="#myReviews" onClick={fetchReviews}>My reviews</a>
-        <a href="#allBooks">All books</a>
-      </nav>
-    </div>
-  );
-};
-
-
-const SearchBar = () => {
-  const [books, setBooks] = React.useState([]);
-  const [searchTerm, setSearchTerm] = React.useState("");
-
-  React.useEffect(() => {
-     getBooks ("book.title", "asc"); 
-  }, []);
-
-  const handleSearch = () => {
-    // getBooks("book.title")
-};
-
-  return (
-    <div>
-      <input
-        className="searchbar"
-        type="text"
-        placeholder="Search for a book"
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
-      />
-      <button onClick={handleSearch}>Search for book</button>
-      <div id="result"></div>
-    </div>
-  );
-};
-
- const handleAdd = () => {
-    postBook(newBook);
-  }
-
 
 
 const AddBookCard = () => {
@@ -163,7 +147,6 @@ const AddBookCard = () => {
   const [newPublishedDate, setNewPublishedDate] = React.useState("")
   const [newGenre, setNewGenre] = React.useState("")
   const [newDescription, setNewDescription] = React.useState("")
-
 
   return (
     // newBookCardOpen &&
@@ -221,36 +204,131 @@ const AddBookCard = () => {
             }}
           />
           <div>
-            <button onClick={handleAdd}>Add book to my library</button>
+            <button onClick={handleAddBook}>Add book to my library</button>
           </div>
         </div>
       </div>
     ))
 };
 
+const HeaderNav = () => {
+  const [isHomeVisible, setIsHomeVisible] = useState(true);
+  const [isAddBookVisible, setIsAddBookVisible] = useState(false);
+  const [isMyBooksVisible, setIsMyBooksVisible] = useState(false);
+  const [isMyReviewsVisible, setIsMyReviewsVisible] = useState(false);
 
-// function BookList() {
+  const homepageChange = () => {
+    setIsHomeVisible(state => !state);
+  }
+  
+  const addBookChange = () => {
+    setIsAddBookVisible(state => !state);
+  }
+  const myBooksChange = () => {
+    setIsMyBooksVisible(state => !state);
+  }
+
+  const myReviewsChange = () => {
+    setIsMyReviewsVisible(state => !state);
+  }
+
+  return (
+    <div className="navbar">
+      <nav className="navbar">
+        <a href="#home" onClick={homepageChange}>Home</a>
+        <a href="#myBooks" onClick={myBooksChange}>My books</a>
+        <a href="#myReviews" onClick={myReviewsChange}>My reviews</a>
+        <a href="#addBook" onClick={addBookChange}>Add book</a>
+      </nav>
+      {isMyBooksVisible && <BookList />}
+      {/* {isMyReviewsVisible && <RatingsList />} */}
+      {isAddBookVisible && <AddBookCard />}
+    </div>
+  );
+};
+
+
+const SearchBar = () => {
+  const [books, setBooks] = React.useState([]);
+  const [searchTerm, setSearchTerm] = React.useState("");
+
+  React.useEffect(() => {
+     getBooks ("book.title", "asc"); 
+  }, []);
+
+  const handleSearch = () => {
+    // getBooks("book.title")
+};
+
+  return (
+    <div>
+      <input
+        className="searchbar"
+        type="text"
+        placeholder="Search for a book"
+        value={searchTerm}
+        onChange={(e) => {
+          setSearchTerm(e.target.value);
+        }}
+      />
+      <button onClick={handleSearch}>Search for book</button>
+      <div id="result"></div>
+    </div>
+  );
+};
+
+ const handleAddBook = () => {
+    postBook(newBook);
+  }
+
+ const handleAddReview = () => {
+    postReview(newReview);
+  }
+
+
+
+
+// const AddReviewCard = () => {
+//   // const [newBookCardOpen, setNewBookCardOpen] = useState(false);
+//   const [newBookReview, setNewBookReview] = React.useState({ book_rating: '', book_review: '' })
+//   const [newRating, setNewRating] = React.useState("")
+//   const [newReview, setNewReview] = React.useState("")
+
+
 //   return (
-//     <Grid container spacing={2}>
-//   <Grid size={8}>
-//     <Item>size=8</Item>
-//   </Grid>
-//   <Grid size={4}>
-//     <Item>size=4</Item>
-//   </Grid>
-//   <Grid size={4}>
-//     <Item>size=4</Item>
-//   </Grid>
-//   <Grid size={8}>
-//     <Item>size=8</Item>
-//   </Grid>
-//     </Grid>
-//   )
-// }
+//     // newBookCardOpen &&
+//     (
+//       <div className="cardcontainer" id="add_review_result">
+//         <div className="card">
+//           <input
+//             className="inputBar"
+//             type="checkbox"
+//             name="book_rating"
+//             value={newRating}
+//             onChange={(e) => {
+//               setNewRating(e.target.value)
+//             }}
+//           />
+//           <input
+//             className="checkbox"
+//             type="tex"
+//             placeholder="Book review"
+//             name="book_review"
+//             value={newReview}
+//             onChange={(e) => {
+//               setNewReview(e.target.value)
+//             }}
+//           />
+//           <div>
+//             <button onClick={handleAddReview}>Add review</button>
+//           </div>
+//         </div>
+//       </div>
+//     ))
+// };
 
 
-function BookCard() {
-
+function BookCard({index, title, author, description}) {
   const handleRemove = () => {
   removeBook();
 }
@@ -258,10 +336,10 @@ function BookCard() {
   return (
     <div className="cardcontainer" id="list_result">
       <div className="card">
-        <h3>Book</h3>
-        <p>Author</p>
-        <p>Description</p>
-        <p>Rating</p>
+        <p>{title}</p>
+        <p>{author}</p>
+        <p>{description}</p>
+
         <button onClick={handleRemove}>Remove book from library</button>
         {/* <button onClick={handleEdit}>Edit book</button> */}
         </div>
@@ -271,16 +349,18 @@ function BookCard() {
 
 
 function BookList() {
+  const [bookData, setBookData] = React.useState([])
   const [showBookList, setShowBookList] = React.useState(false);
 
   const handleClick = () => {
-    setShowBookList()
+    setShowBookList(!showBookList);
   }
 
    React.useEffect(() => {
     const retrieveBookList = async () => {
       try {
         const data = await getBooks("title", "asc");
+        setBookData(data);
         console.log(data);
       } catch (error) {
         console.error("Couldnt fetch book count");
@@ -293,21 +373,16 @@ function BookList() {
     <div id="ratings_result">
       <h2>My Book List</h2>
       <div className="container" >
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
-      <BookCard />
+        {bookData.map((book, index) => (
+          <BookCard key={index} title={book.book_title} author={book.book_author} description={book.book_description} />
+           ))}
       </div>
       <div>
-        <button className="button" onClick={handleAdd}>Add new book to library</button>
+         <BookCount />
         </div>
       </div>
 )
     }
-
-
 
 
 function BookCount() {
@@ -328,16 +403,13 @@ function BookCount() {
   return <h2>Book count: {count}</h2>;
 }
 
-function App() {
+function App() { //Home page 
   return (
     <div>
       <HeaderNav />
       <h1 className="pagetitle">Personal Book Library</h1>
       <SearchBar />
-      <AddBookCard />
       {/* <TopRated /> */}
-      <BookList />
-      <BookCount />
     </div>
   );
 }
