@@ -1,13 +1,41 @@
 // Writing a function to communicate with our local server
 // import "../my-app/src/index.js";
 
-export const getBooks = async (orderBy, orderDir) => {
-  const resultElement = document.getElementById("result");
+const getBooks = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("list_result");
   resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/books`, {
-      params: {orderBy, orderDir},
+    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
+    const response = await fetch(`/api/books?${queryParams}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+    resultElement.innerHTML = data.map(book => 
+      `<BookCard data=${JSON.stringify(book)} />`).join('');
+    
+    return data; 
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+    throw error;
+}};
+
+const getRatings = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("ratings_result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
+    const response = await fetch(`/api/ratings?${queryParams}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -20,17 +48,45 @@ export const getBooks = async (orderBy, orderDir) => {
 
     const data = await response.json();
     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    return data;
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
   }
 };
 
-export const postBook = async () => {
-  const resultElement = document.getElementById("result");
+
+const postBook = async (newBook) => {
+  const resultElement = document.getElementById("add_result");
   resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/new_book`, {
+    const response = await fetch(`/api/books`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBook),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log(data);
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+
+const postReview = async (newReview) => {
+  const resultElement = document.getElementById("add_review_result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/ratings`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -46,12 +102,14 @@ export const postBook = async () => {
 
     const data = await response.json();
     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log(data);
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
   }
 };
 
-export const removeBook = async () => {
+
+const removeBook = async () => {
   const response = await fetch(`/api/remove_book`, {
     method: "DELETE",
     headers: {
@@ -64,7 +122,7 @@ export const removeBook = async () => {
 }
 
 
-export const getFavourites = async (orderBy, orderDir) => {
+const getFavourites = async (orderBy, orderDir) => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
@@ -88,7 +146,7 @@ export const getFavourites = async (orderBy, orderDir) => {
   }
 };
 
-export const postFavourites = async () => {
+const postFavourites = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
@@ -114,71 +172,8 @@ export const postFavourites = async () => {
   }
 };
 
-export const removeFavourite = async () => {
+const removeFavourite = async () => {
   const response = await fetch(`/api/remove_favourite`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message: "If you can see this DELETE is working :)",
-    })
-  }); return response;
-}
-
-
-export const getRatings = async (orderBy, orderDir) => {
-  const resultElement = document.getElementById("result");
-  resultElement.textContent = "Loading...";
-
-  try {
-    const response = await fetch(`/api/ratings`, {
-      params: {orderBy, orderDir},
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-  } catch (error) {
-    resultElement.textContent = `Error: ${error.message}`;
-  }
-};
-
-export const postRatings = async () => {
-  const resultElement = document.getElementById("result");
-  resultElement.textContent = "Loading...";
-
-  try {
-    const response = await fetch(`/api/new_ratings`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: "If you can see this POST is working :)",
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-  } catch (error) {
-    resultElement.textContent = `Error: ${error.message}`;
-  }
-};
-
-export const removeRating = async () => {
-  const response = await fetch(`/api/remove_rating`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

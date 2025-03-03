@@ -2,13 +2,12 @@ const React = window.React;
 const ReactDOM = window.ReactDOM;
 const { useState, useRef, useEffect, useNavigate } = React;
 
-const getBooks = async (orderBy, orderDir) => {
+const getBooks = async () => {
   const resultElement = document.getElementById("list_result");
   resultElement.textContent = "Loading...";
 
   try {
-    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
-    const response = await fetch(`/api/books?${queryParams}`, {
+    const response = await fetch(`/api/books`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,21 +21,114 @@ const getBooks = async (orderBy, orderDir) => {
     const data = await response.json();
     console.log(data);
     resultElement.innerHTML = data.map(book => 
-      `<BookCard index=${book.book_id}>${book.book_title} - ${book.book_author} - ${book.book_description}/>`).join('');
-
+      `<BookCard data=${JSON.stringify(book)} />`).join('');
+    
     return data; 
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
     throw error;
 }};
 
-const getRatings = async (orderBy, orderDir) => {
-  const resultElement = document.getElementById("ratings_result");
+// const getRatings = async (orderBy, orderDir) => {
+//   const resultElement = document.getElementById("ratings_result");
+//   resultElement.textContent = "Loading...";
+
+//   try {
+//     const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
+//     const response = await fetch(`/api/ratings?${queryParams}`, {
+//       method: "GET",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`Error: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+//     return data;
+//   } catch (error) {
+//     resultElement.textContent = `Error: ${error.message}`;
+//   }
+// };
+
+
+const postBook = async (newBook) => {
+  const resultElement = document.getElementById("add_result");
   resultElement.textContent = "Loading...";
 
   try {
-    const queryParams = new URLSearchParams({ orderBy, orderDir }).toString();
-    const response = await fetch(`/api/ratings?${queryParams}`, {
+    const response = await fetch(`/api/new_book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBook),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    console.log(data);
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+  }
+};
+
+
+// const postReview = async (newReview) => {
+//   const resultElement = document.getElementById("add_review_result");
+//   resultElement.textContent = "Loading...";
+
+//   try {
+//     const response = await fetch(`/api/ratings`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         message: "If you can see this POST is working :)",
+//       }),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error(`Error: ${response.status}`);
+//     }
+
+//     const data = await response.json();
+//     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+//     console.log(data);
+//   } catch (error) {
+//     resultElement.textContent = `Error: ${error.message}`;
+//   }
+// };
+
+
+const removeBook = async () => {
+  const response = await fetch(`/api/remove_book`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      message: "If you can see this DELETE is working :)",
+    })
+  }); return response;
+}
+
+
+const getFavourites = async (orderBy, orderDir) => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/favourites`, {
+      params: {orderBy, orderDir},
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -49,79 +141,49 @@ const getRatings = async (orderBy, orderDir) => {
 
     const data = await response.json();
     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    return data;
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
   }
 };
 
+// const postFavourites = async () => {
+//   const resultElement = document.getElementById("result");
+//   resultElement.textContent = "Loading...";
 
-const postBook = async (newBook) => {
-  const resultElement = document.getElementById("add_result");
-  resultElement.textContent = "Loading...";
+//   try {
+//     const response = await fetch(`/api/new_favourites`, {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({
+//         message: "If you can see this POST is working :)",
+//       }),
+//     });
 
-  try {
-    const response = await fetch(`/api/books`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: "If you can see this POST is working :)",
-      }),
-    });
+//     if (!response.ok) {
+//       throw new Error(`Error: ${response.status}`);
+//     }
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
+//     const data = await response.json();
+//     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+//   } catch (error) {
+//     resultElement.textContent = `Error: ${error.message}`;
+//   }
+// };
 
-    const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    console.log(data);
-  } catch (error) {
-    resultElement.textContent = `Error: ${error.message}`;
-  }
-};
+// const removeFavourite = async () => {
+//   const response = await fetch(`/api/remove_favourite`, {
+//     method: "DELETE",
+//     headers: {
+//       "Content-Type": "application/json",
+//     },
+//     body: JSON.stringify({
+//       message: "If you can see this DELETE is working :)",
+//     })
+//   }); return response;
+// }
 
-
-const postReview = async (newReview) => {
-  const resultElement = document.getElementById("add_review_result");
-  resultElement.textContent = "Loading...";
-
-  try {
-    const response = await fetch(`/api/ratings`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        message: "If you can see this POST is working :)",
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error(`Error: ${response.status}`);
-    }
-
-    const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-    console.log(data);
-  } catch (error) {
-    resultElement.textContent = `Error: ${error.message}`;
-  }
-};
-
-const removeBook = async (book_id) => {
-  const response = await fetch(`/api/books`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      message: "If you can see this DELETE is working :)",
-    })
-  }); return response;
-}
 
 const handleNavigate = (hash, orderBy, orderDir) => {
   window.location.hash = hash;
@@ -129,12 +191,12 @@ const handleNavigate = (hash, orderBy, orderDir) => {
 }
 
 const fetchBooks = () => {
-    getBooks("book.title")
+    getBooks("book_title", "asc")
 };
   
 
 const fetchReviews = () => {
-    getRatings("book.rating")
+    getRatings("book_rating", "asc")
 };
 
 
@@ -147,6 +209,11 @@ const AddBookCard = () => {
   const [newPublishedDate, setNewPublishedDate] = React.useState("")
   const [newGenre, setNewGenre] = React.useState("")
   const [newDescription, setNewDescription] = React.useState("")
+
+  const handleAddBook = () => {
+   const bookInformation = {book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription}
+    postBook(bookInformation);
+  }
 
   return (
     // newBookCardOpen &&
@@ -235,12 +302,12 @@ const HeaderNav = () => {
   return (
     <div className="navbar">
       <nav className="navbar">
-        <a href="#home" onClick={homepageChange}>Home</a>
-        <a href="#myBooks" onClick={myBooksChange}>My books</a>
-        <a href="#myReviews" onClick={myReviewsChange}>My reviews</a>
-        <a href="#addBook" onClick={addBookChange}>Add book</a>
+        <a href="#home" className="aNav" onClick={homepageChange}>Home</a>
+        <a href="#myBooks"  className="aNav" onClick={myBooksChange}>My books</a>
+        <a href="#myReviews"  className="aNav" onClick={myReviewsChange}>My reviews</a>
+        <a href="#addBook"  className="aNav" onClick={addBookChange}>Add book</a>
       </nav>
-      {isMyBooksVisible && <BookList />}
+      {isMyBooksVisible && <BookCard />}
       {/* {isMyReviewsVisible && <RatingsList />} */}
       {isAddBookVisible && <AddBookCard />}
     </div>
@@ -253,7 +320,7 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   React.useEffect(() => {
-     getBooks ("book.title", "asc"); 
+     getBooks ("book_title", "asc"); 
   }, []);
 
   const handleSearch = () => {
@@ -277,9 +344,6 @@ const SearchBar = () => {
   );
 };
 
- const handleAddBook = () => {
-    postBook(newBook);
-  }
 
  const handleAddReview = () => {
     postReview(newReview);
@@ -328,17 +392,31 @@ const SearchBar = () => {
 // };
 
 
-function BookCard({index, title, author, description}) {
+function BookCard({ data }) {
+    const [bookData, setBookData] = React.useState([])
   const handleRemove = () => {
   removeBook();
-}
+  }
+  
+     React.useEffect(() => {
+    const retrieveBookList = async () => {
+      try {
+        const data = await getBooks("book_title", "asc");
+        setBookData(data);
+        console.log(data);
+      } catch (error) {
+        console.error("Couldnt fetch book count");
+      }
+    };
+    retrieveBookList();
+  }, []);
   
   return (
     <div className="cardcontainer" id="list_result">
       <div className="card">
-        <p>{title}</p>
-        <p>{author}</p>
-        <p>{description}</p>
+        <p>{data.book_title}</p>
+        <p>{data.book_author}</p>
+        <p>{data.book_description}</p>
 
         <button onClick={handleRemove}>Remove book from library</button>
         {/* <button onClick={handleEdit}>Edit book</button> */}
@@ -348,7 +426,7 @@ function BookCard({index, title, author, description}) {
 }
 
 
-function BookList() {
+function BookList({data}) {
   const [bookData, setBookData] = React.useState([])
   const [showBookList, setShowBookList] = React.useState(false);
 
@@ -359,7 +437,7 @@ function BookList() {
    React.useEffect(() => {
     const retrieveBookList = async () => {
       try {
-        const data = await getBooks("title", "asc");
+        const data = await getBooks("book_title", "asc");
         setBookData(data);
         console.log(data);
       } catch (error) {
@@ -391,7 +469,7 @@ function BookCount() {
   React.useEffect(() => {
     const getBookCount = async () => {
       try {
-        const data = await getBooks("title", "asc");
+        const data = await getBooks("book_title", "asc");
         setCount(data.length);
         console.log(data.length);
       } catch (error) {
