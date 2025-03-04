@@ -35,6 +35,7 @@ header {
 .searchbar{
     justify-items: center;
     align-content: space-between;
+    padding-left: 150px;
 }
 
 

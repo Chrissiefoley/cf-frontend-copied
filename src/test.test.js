@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 // import "@testing-library/jest-dom";
-import { App } from "./test.js";
+import { App } from "./App.js";
 import React from "react";
 
 test("renders Personal Book Library title", () => {
