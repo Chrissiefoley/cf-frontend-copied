@@ -1,6 +1,6 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
-import { postBook, getBooks } from './../../client.js';
+import { postBook, getBooks } from '../../client.js';
 
 const fetchBooks = () => {
   getBooks();
@@ -18,6 +18,11 @@ export const AddBookCard = () => {
   const handleAddBook = () => {
     const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription };
     postBook(bookInformation);
+    return (
+      <div>
+        <MyBookList />
+      </div>
+    )
   };
 
   return (

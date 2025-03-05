@@ -16,18 +16,21 @@ export const HeaderNav = () => {
   return (
       <div className="navbar">
         <nav className="navbar">
-          {/* <a href="#home" className="aNav" onClick={() => {
+          <a href="#home" className="aNav" onClick={() => {
             navigate(`/1`);
-          }}>Home</a> */}
-          <a href="#myBooks" className="aNav" onClick={() => {
-            navigate(`/mybooks`);
+          }}>Home</a>
+          <a className="aNav" onClick={() => {
+            navigate(`/books`);
           }}>My books</a>
-          {/* <a href="#myReviews"  className="aNav" onClick={() => {
-            navigate(`/3`);
-          }}>My reviews</a> */}
-          <a href="#addBook" className="aNav" onClick={() => {
-            navigate(`/addbook`);
-          }}>Add book</a>
+          <a className="aNav" onClick={() => {
+            navigate(`/new_book`);
+        }}>Add book</a>
+          <a href="#myReviews"  className="aNav" onClick={() => {
+            navigate(`/ratings`);
+          }}>My reviews</a>
+         <a className="aNav" onClick={() => {
+            navigate(`/books`);
+          }}>All books</a>
         </nav>
         {isMyBooksVisible && <MyBookCard />}
         {/* {isMyReviewsVisible && <RatingsList />} */}

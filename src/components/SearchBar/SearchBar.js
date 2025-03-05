@@ -1,6 +1,6 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
-import { getBooks } from './../../client.js';
+import { getBooks } from '../../client.js';
 
 export const SearchBar = () => {
   const [books, setBooks] = useState([]);

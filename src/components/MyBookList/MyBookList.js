@@ -1,13 +1,10 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
-import { getBooks } from './../../client.js';
+import { getBooks } from  '../../client.js';
 import { SearchBar } from './../../components/SearchBar/SearchBar.js';
+import { MyBookCard } from './../../components/MyBookCard/MyBookCard.js';
 
-export const MyBookList = ({ data }) => {
-  const [bookData, setBookData] = useState([]);
-  const [showBookList, setShowBookList] = useState(false);
-    
-  const BookCount = () => {
+export const BookCount = () => {
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -17,7 +14,7 @@ export const MyBookList = ({ data }) => {
           setCount(data.length);
           console.log(data.length);
         } catch (error) {
-          console.error("Couldnt fetch book count");
+          console.error("Couldn't fetch book count:", error);
         }
       };
       getBookCount();
@@ -25,18 +22,18 @@ export const MyBookList = ({ data }) => {
     return <h2>Book count: {count}</h2>;
   };
 
-  // const handleClick = () => {
-  //   setShowBookList(!showBookList);
-  // }
+
+export const MyBookList = () => {
+  const [bookData, setBookData] = useState([]);
 
   useEffect(() => {
     const retrieveBookList = async () => {
       try {
         const data = await getBooks();
         setBookData(data);
-        console.log(data);
+        // console.log(data);
       } catch (error) {
-        console.error("Couldnt fetch book count");
+        console.error("Couldnt fetch book list");
       }
     };
     retrieveBookList();
@@ -47,7 +44,7 @@ export const MyBookList = ({ data }) => {
       <h2>My Book List</h2>
       <div className="container" >
         {bookData.map((book, index) => (
-          <MyBookList key={index} title={book.book_title} author={book.book_author} description={book.book_description} />
+          <MyBookCard key={index} title={book.book_title} author={book.book_author} description={book.book_description} />
         ))}
       </div>
       <div>

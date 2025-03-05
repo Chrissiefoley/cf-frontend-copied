@@ -35,22 +35,20 @@ const fetchBooks = () => {
 export default function App() {
   return (
     <div>
-    <BrowserRouter>
+      <BrowserRouter>
+        <HeaderNav />
+            <h1 className="pagetitle">Personal Book Library</h1>
         <Routes>
-        <Route path="/" element={<HeaderNav />}></Route>
         <Route
-          exact
-          path="/mybooks"
-          element={<MyBookList />}
+          exact path="/books"
+          element={<MyBookCard />}
         />
         <Route
-          exact
-          path="/addbook"
+          exact path="/new_book"
           element={<AddBookCard />}
         />
       </Routes>
     </BrowserRouter>
-      <h1 className="pagetitle">Personal Book Library</h1>
       {/* <TopRated /> */}
     </div>
   );
