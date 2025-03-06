@@ -25,6 +25,8 @@ export const BookCount = () => {
 
 export const MyBookList = () => {
   const [bookData, setBookData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const retrieveBookList = async () => {
@@ -40,7 +42,7 @@ export const MyBookList = () => {
   }, []);
 
   return (
-    <div id="ratings_result">
+    <div id="list_result">
       <h2>My Book List</h2>
       <div className="container" >
         {bookData.map((book, index) => (

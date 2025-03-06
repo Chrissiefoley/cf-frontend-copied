@@ -41,7 +41,7 @@ export default function App() {
         <Routes>
         <Route
           exact path="/books"
-          element={<MyBookCard />}
+          element={<MyBookList />}
         />
         <Route
           exact path="/new_book"

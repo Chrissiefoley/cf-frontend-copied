@@ -1,13 +1,9 @@
-// CONST SERVER_PORT = 8080;
-// CONST URL =  `http://localhost:${SERVER_PORT}`;
-
 export const getBooks = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
   try {
     const response = await fetch(`http://localhost:8080/api/books`, {
-      port: 8080,
       method: "GET",
       headers: { 
         "Accept": "application/json",
@@ -23,6 +19,7 @@ export const getBooks = async () => {
     }
 
     const data = await response.json();
+    resultElement.textContent = "";
     return data;
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
@@ -60,7 +57,7 @@ export const postBook = async (newBook) => {
   // resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`http://localhost:8080/api/new_book`, {
+    const response = await fetch(`/api/new_book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
