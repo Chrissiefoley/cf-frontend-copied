@@ -23,7 +23,6 @@ app.use(express.static('test-public')); // Serve static files from 'public' dire
 // New GET endpoint
 app.get("/api/books", async (req, res) => {
   try {
-    console.log("Hello im here");
     // Call the Supabase Edge Function for books
     const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {
       method: "GET",
@@ -73,14 +72,17 @@ app.post("/api/new_book", async (req, res) => {
 
 
 //New DELETE endpoint
-app.get("/api/books/:id", async (req, res) => {
+app.delete("/api/books/:book_id", async (req, res) => {
   try {
-    // Call the Supabase Edge Function for books
+    const { book_id } = req.params;
+
     const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({book_id})
     });
 
     if (!response.ok) {
@@ -89,8 +91,8 @@ app.get("/api/books/:id", async (req, res) => {
       );
     }
 
-    // const data = await response.json();
-    res.status(200).json({message: 'Book deleted from library'});
+    const data = await response.json();
+    res.status(200).json({message: 'Book deleted from library', data});
   } catch (error) {
     console.error("DELETE request error:", error);
     res.status(500).json({ error: error.message });

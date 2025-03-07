@@ -159,7 +159,8 @@ h3 {
 }
 
 .removebutton:hover {
-    background-color: #211552;
+    background-color: #211e2f;
+    color: #ffffff;
 }
 
 
@@ -181,4 +182,5 @@ h3 {
 
 .editbutton:hover {
     background-color: #211e2f;
+    color: #ffffff;
 }

@@ -5,7 +5,6 @@ import { SearchBar } from './../../components/SearchBar/SearchBar.js';
 import { MyBookCard } from './../../components/MyBookCard/MyBookCard.js';
 import { BookCount } from './../../components/BookCount/BookCount.js';
 
-
 export const MyBookList = () => {
   const [bookData, setBookData] = useState([]);
 
@@ -21,20 +20,19 @@ export const MyBookList = () => {
     retrieveBookList();
   }, []);
 
-  const deleteBook = async (bookId) => {
+  const deleteBook = async (book_id) => {
     try {
-      await removeBook(bookId);
-        setBookData((prevBookData) => prevBookData.filter(book => book.book_id !== bookId));
+      setBookData((prevBookData) => prevBookData.filter(book => book.book_id !== book_id));
+      removeBook(book_id);
+      console.log("Deleted book successfully")
     } catch (error) {
-      console.error("Not able to delete book");
+      console.error("Not able to delete book", error);
     }
   };
-
 
   // const updateBook = (bookId) => {
   //   updateBook(bookId);
   // }
-
 
   return (
     <div id="list_result">
