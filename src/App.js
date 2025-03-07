@@ -12,7 +12,6 @@ import { MyBookCard } from './components/MyBookCard/MyBookCard.js';
 import { MyBookList } from './components/MyBookList/MyBookList.js';
 import { SearchBar } from './components/SearchBar/SearchBar.js';
 
-
 const handleNavigate = (hash, orderBy, orderDir) => {
   window.location.hash = hash;
   getBooks();
@@ -37,7 +36,7 @@ export default function App() {
     <div>
       <BrowserRouter>
         <HeaderNav />
-            <h1 className="pagetitle">Personal Book Library</h1>
+        <h1 className="pagetitle">Personal Book Library</h1>
         <Routes>
         <Route
           exact path="/books"
@@ -46,7 +45,7 @@ export default function App() {
         <Route
           exact path="/new_book"
           element={<AddBookCard />}
-        />
+          />
       </Routes>
     </BrowserRouter>
       {/* <TopRated /> */}

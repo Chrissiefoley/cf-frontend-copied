@@ -1,15 +1,19 @@
 import './../../index.css';
-import React, { useState, useEffect, useNavigate, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../client.js';
 
 
-export const MyBookCard = ({ book_title, book_author, book_genre, book_description }) => {
+export const MyBookCard = ({book, onRemove}) => {
   // const [seeMoreDescription, setSeeMoreDescription] = useState(null);
 
-  // const handleRemove = () => {
-  //   const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription };
-  //   removeBook(bookInformation);
+  const handleRemove = () => {
+    onRemove(book.book_id);
+  };
+
+  // const handleEdit = () => {
+  //   onEdit(book.book_id);
   // };
+  
   
   const clipDescription = (description) => {
     const maxLength = 100;
@@ -21,14 +25,13 @@ export const MyBookCard = ({ book_title, book_author, book_genre, book_descripti
   
   return (
     <div className="cardcontainer" id="list_result">
-      {bookData.map((book) => (
       <div key={book.book_id} className="card">
         <h3>{book.book_title}</h3>
-        <p>{book.book_author}</p>
+        <p className="authortext">{book.book_author}</p>
         <p>{clipDescription(book.book_description)}</p> 
+        <button className="removebutton" onClick={handleRemove}>Remove book</button>
+        <button className="editbutton">Edit book</button>
       </div>
-        ))}
-        {/* <button onClick={handleEdit}>Edit book</button> */}
     </div>
   );
 };

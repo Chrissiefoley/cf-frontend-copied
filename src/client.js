@@ -12,8 +12,6 @@ export const getBooks = async () => {
       },
     });
 
-    console.log("Here:", response);
-
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);
     }
@@ -57,7 +55,7 @@ export const postBook = async (newBook) => {
   // resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/new_book`, {
+    const response = await fetch(`http://localhost:8080/api/new_book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -75,6 +73,31 @@ export const postBook = async (newBook) => {
     console.error(`Error: ${error.message}`);
   }
 };
+
+export const updateBook = async (bookId) => {
+  // const resultElement = document.getElementById("add_result");
+  // resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/update_book`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newBook),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
+};
+
 
 
 // const postReview = async (newReview) => {
@@ -105,8 +128,8 @@ export const postBook = async (newBook) => {
 // };
 
 
-export const removeBook = async () => {
-  const response = await fetch(`/api/remove_book`, {
+export const removeBook = async (book_id) => {
+  const response = await fetch(`http://localhost:8080/api/books/?${book_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

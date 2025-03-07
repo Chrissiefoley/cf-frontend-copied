@@ -2,24 +2,22 @@ import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
 import { postBook, getBooks } from '../../client.js';
 
-export const AddBookCard = () => {
+export const EditBookCard = () => {
   // const [newBookCardOpen, setNewBookCardOpen] = useState(false);
-  const [newBook, setNewBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '' });
+  const [updatedBook, setUpdatedBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '' });
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newPublishedDate, setNewPublishedDate] = useState("");
   const [newGenre, setNewGenre] = useState("");
   const [newDescription, setNewDescription] = useState("");
 
-  const handleAddBook = () => {
+  const handleEditBook = () => {
     const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription };
-    postBook(bookInformation);
-    console.log("Book added to library");
+    updateBook(bookInformation);
+    // console.log("Book successfully updated")
   };
 
   return (
-    // newBookCardOpen &&
-    (
       <div className="cardcontainer" id="add_result">
         <div className="card">
           <input
@@ -73,9 +71,9 @@ export const AddBookCard = () => {
             }}
           />
           <div>
-            <button onClick={handleAddBook}>Add book to my library</button>
+            <button onEditBook={handleEditBook}>Submit changes</button>
           </div>
         </div>
       </div>
-    ));
+    );
 };

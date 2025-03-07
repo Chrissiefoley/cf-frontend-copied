@@ -73,11 +73,11 @@ app.post("/api/new_book", async (req, res) => {
 
 
 //New DELETE endpoint
-app.get("/api/delete_books", async (req, res) => {
+app.get("/api/books/:id", async (req, res) => {
   try {
     // Call the Supabase Edge Function for books
     const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {
-      method: "GET",
+      method: "DELETE",
       headers: {
         Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
       },
@@ -89,10 +89,10 @@ app.get("/api/delete_books", async (req, res) => {
       );
     }
 
-    const data = await response.json();
-    res.json(data);
+    // const data = await response.json();
+    res.status(200).json({message: 'Book deleted from library'});
   } catch (error) {
-    console.error("GET request error:", error);
+    console.error("DELETE request error:", error);
     res.status(500).json({ error: error.message });
   }
 });

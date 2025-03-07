@@ -58,6 +58,7 @@ button:hover {
     background-color: #211552;
 }
 
+
 a {
     color: #a70C25;
     text-decoration: none;
@@ -96,6 +97,10 @@ h3 {
     text-decoration: none;
 }
 
+.authortext {
+    font-style: italic;
+}
+
 .navbar {
   color: #a70C25;
   padding: 10px;
@@ -105,24 +110,75 @@ h3 {
 
 .container {
     display: grid;
-    grid-template-columns: repeat(3, 1fr); 
-    grid-gap: 10px; 
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 10px;
 }
 
 .cardcontainer {
     display: grid;
-    grid-template-columns: 1fr; 
+    grid-template-columns: repeat(4, 1fr);
     grid-gap: 10px;
     justify-items: center; 
 }
 
 .card {
-    background-color: #da9c9c;
+    background-color: #da9c9a;
     padding: 20px;
     text-align: center;
-    width: 300px; 
+    width: 250px; 
+    max-height: 300px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
 }
 
+.addbook_card {
+    background-color: #da9c9a;
+    padding: 20px;
+    text-align: center;
+    width: 300px; 
+    height: 200px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    justify-items: center; 
+}
 
+.removebutton {
+    background-color: #541192;
+    border: none;
+    color: white;
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px;
+    margin-right: 8px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.removebutton:hover {
+    background-color: #211552;
+}
+
+
+.editbutton {
+    background-color: #ddd8e1;
+    border-color:  #7e46ab;
+    color: rgb(0, 0, 0);
+    padding: 10px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px;
+    margin-left: 8px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: background-color 0.3s ease;
+}
+
+.editbutton:hover {
+    background-color: #211e2f;
+}
