@@ -96,6 +96,15 @@ const id = open ? 'simple-popover' : undefined;
               setNewDescription(e.target.value);
             }}
           />
+           <Rating
+              name="book_rating"
+              defaultValue={0}
+              value={newRating}
+              size="small"
+              precision={0.5}
+              onChange={(e) => {
+              setNewRating(e.target.value);
+              }} />
         <Button onClick={handleEdit}>Submit changes</Button>
             </Card>
           </Popover>

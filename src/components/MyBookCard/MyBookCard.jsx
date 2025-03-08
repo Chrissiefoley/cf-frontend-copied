@@ -6,7 +6,7 @@ import { Card, Button, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const MyBookCard = ({ book, onRemove, onEdit }) => {
-  const { book_title, book_author, book_publishedDate, book_genre, book_description } = book;
+  const { book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = book;
   // const [seeMoreDescription, setSeeMoreDescription] = useState(null);
   const [editPopUp, setEditPopUp] = useState(false);
 
@@ -25,8 +25,8 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   
   
   const clipDescription = (book_description) => {
-    const maxLength = 100;
-    if (book_description && book_description.length > 100) {
+    const maxLength = 200;
+    if (book_description && book_description.length > 200) {
       return book_description.substring(0, maxLength) + '...';
     }
     return book_description || "";
@@ -55,7 +55,12 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
             textAlign: 'center',
           paddingTop: '5px',
            margin: '5px',
-          }}>{clipDescription(book_description)}</Typography>
+        }}>{clipDescription(book_description)}</Typography>
+         <Typography variant="body2" sx={{
+            textAlign: 'center',
+          paddingTop: '5px',
+           margin: '5px',
+          }}>{book_rating}</Typography>
         <Button variant="text" onClick={handleRemove} startIcon={<DeleteIcon />}>Remove book</Button>
         <Button variant="text" color="secondary" onClick={editPopOver}>Edit book</Button>
         {/* <button className="removebutton" onClick={handleRemove}>Remove book</button>

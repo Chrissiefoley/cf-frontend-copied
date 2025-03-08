@@ -28,8 +28,8 @@ export const getBooks = async () => {
 
 
 export const postBook = async (newBook) => {
-  const { book_title, book_author, book_publishedDate, book_genre, book_description } = newBook;
-  const validInput = (book_title && book_author && book_publishedDate && book_genre && book_description);
+  const { book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = newBook;
+  const validInput = (book_title && book_author && book_publishedDate && book_genre && book_description && book_rating);
  
    if (!validInput) {
       throw new Error(`Cannot add book - missing book details`)

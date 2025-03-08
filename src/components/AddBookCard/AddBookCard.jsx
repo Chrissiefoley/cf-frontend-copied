@@ -1,19 +1,20 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
 import { postBook, getBooks } from '../../client.js';
-import { Container, Card, TextField, Button, Typography, Box, Grid } from '@mui/material';
+import { Container, Card, TextField, Button, Typography, Box, Grid, Rating } from '@mui/material';
 
 export const AddBookCard = () => {
-  // const [newBookCardOpen, setNewBookCardOpen] = useState(false);
-  const [newBook, setNewBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '' });
+  const [newBook, setNewBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '', book_rating: 0 });
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newPublishedDate, setNewPublishedDate] = useState("");
   const [newGenre, setNewGenre] = useState("");
   const [newDescription, setNewDescription] = useState("");
+  const [newRating, setNewRating] = useState(0);
+  const [hover, setHover] = useState(-1);
 
   const handleAddBook = () => {
-    const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription };
+    const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };
     postBook(bookInformation);
   };
 
@@ -33,7 +34,6 @@ export const AddBookCard = () => {
               setNewTitle(e.target.value);
             }}/>
                <TextField 
-       className="inputBar"
             type="text"
             placeholder="Author name"
             name="book_author"
@@ -42,7 +42,7 @@ export const AddBookCard = () => {
               setNewAuthor(e.target.value);
             }}/>
           <TextField 
-         className="inputBar"
+  
             type="text"
             placeholder="Published date"
             name="book_publishedDate"
@@ -50,8 +50,7 @@ export const AddBookCard = () => {
             onChange={(e) => {
               setNewPublishedDate(e.target.value);
             }}/>     
-<TextField 
-className="inputBar"
+            <TextField 
             type="text"
             placeholder="Genre"
             name="book_genre"
@@ -60,13 +59,24 @@ className="inputBar"
               setNewGenre(e.target.value);
             }}/>
           <TextField 
-    className="inputBar"
             type="text"
             placeholder="Description"
             name="book_description"
             value={newDescription}
             onChange={(e) => {
               setNewDescription(e.target.value);
+              }} />
+            <Rating
+              name="book_rating"
+              defaultValue={0}
+              value={newRating}
+              size="small"
+              precision={0.5}
+              onChange={(e, newRating) => {
+                setNewRating(newRating);
+              }}
+              onChangeActive={(event, newHover) => {
+                setHover(newHover);
               }} />
             </Box>
         </Card>
