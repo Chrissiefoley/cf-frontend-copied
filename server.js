@@ -101,8 +101,30 @@ app.delete("/api/books/:book_id", async (req, res) => {
 
 
 // New PUT(Update) endpoint
+app.put("/api/books/:book_id", async (req, res) => {
+  try {
+    const { book_id } = req.params;
+    const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+      },
+      body: JSON.stringify(req.body)
+    });
 
+    if (!response.ok) {
+      throw new Error(
+        `Supabase returned ${response.status}: ${response.statusText}`
+      );
+    }
 
+    const data = await response.json();
+    res.json(data);
+  } catch (error) {
+    console.error("GET request error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 // New POST endpoint

@@ -1,12 +1,12 @@
 body {
-    background-color: #f5e1c0;
+    background-color: #e3cfae;
     /* background-image:
     linear-gradient(90deg, rgba(0,0,0,0.1) 8px, transparent 1px),
     linear-gradient(180deg, rgba(0,0,0,0.1) 8px, transparent 1px); */
     background-size: 50px 120px; 
     color: #fff;
     font-family: 'Arial', sans-serif;
-    margin: 100px 500px;
+    margin: 100px 150px;
     padding: 20px;
 }
 
@@ -22,6 +22,7 @@ body {
 .pagetitle {
     color: #A74165;
     text-align: center;
+    justify-content: flex-start;
 }
 
 header {
@@ -31,13 +32,6 @@ header {
     font-size: 2em;
     font-weight: bold;
 }
-
-.searchbar {
-    justify-content: center;
-    text-align: center;
-    display: flex;
-}
-
 
 button {
     background-color: #8a2be2;
@@ -66,7 +60,7 @@ a {
 
 
 .aNav {
-    color: #a70C25;
+    color: #ded2d4;
     text-decoration: none;
     padding-left: 10px;
     padding-right: 10px;
@@ -102,23 +96,39 @@ h3 {
 }
 
 .navbar {
-  color: #a70C25;
+    background-color: #A74165;
+  color: #f0e3e5;
   padding: 10px;
   align-content: space-between;
   justify-items: center;
 }
 
+
+.app-container {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.left-side {
+    display: flex;
+    align-items: start;
+    justify-content: flex-end;
+}
+
+
 .container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
 }
 
 .cardcontainer {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-gap: 10px;
-    justify-items: center; 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .card {
@@ -163,7 +173,6 @@ h3 {
     color: #ffffff;
 }
 
-
 .editbutton {
     background-color: #ddd8e1;
     border-color:  #7e46ab;
@@ -183,4 +192,27 @@ h3 {
 .editbutton:hover {
     background-color: #211e2f;
     color: #ffffff;
+}
+
+
+.searchouter-container {
+  background-color: #ede4d4;
+  padding: 10px 60px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  position: right;
+  top: 60px; 
+}
+
+.searchbar-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+.search-input {
+  width: 300px;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
 }

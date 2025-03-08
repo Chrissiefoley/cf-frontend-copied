@@ -1,10 +1,11 @@
 import './../../index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MyBookCard } from '../MyBookCard/MyBookCard.js';
-import { AddBookCard } from '../AddBookCard/AddBookCard.js';
-import { SearchBar } from '../SearchBar/SearchBar.js';
-import { MyBookList } from '../MyBookList/MyBookList.js';
+import { MyBookCard } from '../MyBookCard/MyBookCard.jsx';
+import { AddBookCard } from '../AddBookCard/AddBookCard.jsx';
+import { SearchBar } from '../SearchBar/SearchBar.jsx';
+import { MyBookList } from '../MyBookList/MyBookList.jsx';
+import { Container} from '@mui/material';
 
 export const HeaderNav = () => {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
@@ -14,6 +15,7 @@ export const HeaderNav = () => {
   const navigate = useNavigate();
 
   return (
+        <Container>
       <div className="navbar">
         <nav className="navbar">
           <a href="#home" className="aNav" onClick={() => {
@@ -21,7 +23,10 @@ export const HeaderNav = () => {
           }}>Home</a>
           <a className="aNav" onClick={() => {
             navigate(`/books`);
-          }}>My books</a>
+        }}>My books</a>
+        <a className="aNav" onClick={() => {
+            navigate(`/favourite_books`);
+          }}>Favourite books</a>
           <a className="aNav" onClick={() => {
             navigate(`/new_book`);
         }}>Add book</a>
@@ -35,7 +40,8 @@ export const HeaderNav = () => {
         {isMyBooksVisible && <MyBookCard />}
         {/* {isMyReviewsVisible && <RatingsList />} */}
         {isAddBookVisible && <AddBookCard />}
-  </div>
+      </div>
+      </Container>
   );
 };
         

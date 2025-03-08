@@ -1,3 +1,4 @@
+
 export const getBooks = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
@@ -27,8 +28,12 @@ export const getBooks = async () => {
 
 
 export const postBook = async (newBook) => {
-  // const resultElement = document.getElementById("add_result");
-  // resultElement.textContent = "Loading...";
+  const { book_title, book_author, book_publishedDate, book_genre, book_description } = newBook;
+  const validInput = (book_title && book_author && book_publishedDate && book_genre && book_description);
+ 
+   if (!validInput) {
+      throw new Error(`Cannot add book - missing book details`)
+    }
 
   try {
     const response = await fetch(`http://localhost:8080/api/new_book`, {
@@ -50,17 +55,15 @@ export const postBook = async (newBook) => {
   }
 };
 
-export const updateBook = async(book_id) => {
-  // const resultElement = document.getElementById("add_result");
-  // resultElement.textContent = "Loading...";
+export const updateBook = async (book) => {
 
   try {
-    const response = await fetch(`http://localhost:8080/api/update_book`, {
-      method: "POST",
+    const response = await fetch(`http://localhost:8080/api/books/${book.book_id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(newBook),
+      body: JSON.stringify(data),
     });
 
     if (!response.ok) {
@@ -68,7 +71,7 @@ export const updateBook = async(book_id) => {
     }
 
     const data = await response.json();
-    console.log(data);
+    console.log("Book has been updated")
   } catch (error) {
     console.error(`Error: ${error.message}`);
   }
