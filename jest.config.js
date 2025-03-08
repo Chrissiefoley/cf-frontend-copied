@@ -1,6 +1,7 @@
 module.exports = {
   moduleNameMapper: {
-  '\\.(css|less|scss|sass)$': '<rootDir>/src/mocks/cssMock.js'
+    '\\.(css|less|scss|sass)$': '<rootDir>/src/mocks/cssMock.js',
+    '\\.svg$': '<rootDir>/src/mocks/svgMock.js',
   },
   testEnvironment: "jsdom",
   roots: ["<rootDir>/src"],
@@ -8,6 +9,6 @@ module.exports = {
     "^.+\\.jsx?$": "babel-jest",
   },
   moduleFileExtensions: ["js", "jsx"],
-  setupFilesAfterEnv: ["<rootDir>/src"]
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.js"]
 };
 
