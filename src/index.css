@@ -132,7 +132,7 @@ h3 {
 }
 
 .card {
-    background-color: #da9c9a;
+    background-color: #f1e1e0;
     padding: 20px;
     text-align: center;
     width: 250px; 
@@ -195,7 +195,7 @@ h3 {
 }
 
 
-.searchouter-container {
+.outer-container {
   background-color: #ede4d4;
   padding: 10px 60px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -203,10 +203,11 @@ h3 {
   top: 60px; 
 }
 
-.searchbar-container {
+.bar-container {
   display: flex;
   justify-content: end;
   align-items: center;
+  flex-wrap: wrap;
 }
 
 .search-input {

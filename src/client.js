@@ -56,7 +56,6 @@ export const postBook = async (newBook) => {
 };
 
 export const updateBook = async (book) => {
-
   try {
     const response = await fetch(`http://localhost:8080/api/books/${book.book_id}`, {
       method: "PUT",
@@ -92,14 +91,41 @@ export const removeBook = async (book_id) => {
   // return data;
 };
 
-
-export const getFavourites = async (orderBy, orderDir) => {
+export const getGenres = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/favourites`, {
-      params: {orderBy, orderDir},
+    const response = await fetch(`http://localhost:8080/api/genres`, {
+      method: "GET",
+      headers: { 
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    resultElement.textContent = "";
+    return data;
+  } catch (error) {
+    resultElement.textContent = `Error: ${error.message}`;
+    throw error;
+  }};
+
+
+
+
+export const getFavourites = async () => {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = "Loading...";
+
+  try {
+    const response = await fetch(`/api/favourite_books`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -117,43 +143,54 @@ export const getFavourites = async (orderBy, orderDir) => {
   }
 };
 
-// const postFavourites = async () => {
-//   const resultElement = document.getElementById("result");
-//   resultElement.textContent = "Loading...";
+export const postFavourites = async (newFavourites) => {
+  const { top1, top2, top3, top4, top5 } = newFavourites;
+ 
+   if (!validInput) {
+      throw new Error(`Cannot add book - missing book details`)
+    }
 
-//   try {
-//     const response = await fetch(`/api/new_favourites`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//       },
-//       body: JSON.stringify({
-//         message: "If you can see this POST is working :)",
-//       }),
-//     });
+  try {
+    const response = await fetch(`http://localhost:8080/api/new_favourites`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newFavourites),
+    });
 
-//     if (!response.ok) {
-//       throw new Error(`Error: ${response.status}`);
-//     }
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
 
-//     const data = await response.json();
-//     resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-//   } catch (error) {
-//     resultElement.textContent = `Error: ${error.message}`;
-//   }
-// };
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
+};
 
-// const removeFavourite = async () => {
-//   const response = await fetch(`/api/remove_favourite`, {
-//     method: "DELETE",
-//     headers: {
-//       "Content-Type": "application/json",
-//     },
-//     body: JSON.stringify({
-//       message: "If you can see this DELETE is working :)",
-//     })
-//   }); return response;
-// }
+export const updateFavourites = async (favourite_books) => {
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/favourite_books/${favourite_books.favourites_id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Favourites have been updated")
+  } catch (error) {
+    console.error(`Error: ${error.message}`);
+  }
+};
 
 
 

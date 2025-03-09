@@ -1,6 +1,6 @@
 import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Fab, Box } from '@mui/material';
+import { Container, Grid, Typography, Fab, Box, FormControl, InputLabel, Select, MenuItem, Link } from '@mui/material';
 import { getBooks, removeBook, updateBook } from  '../../client.js';
 import { SearchBar } from './../../components/SearchBar/SearchBar.jsx';
 import { MyBookCard } from './../../components/MyBookCard/MyBookCard.jsx';
@@ -9,20 +9,25 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 
 export const MyBookList = () => {
-  const [bookData, setBookData] = useState([]);
-   const navigate = useNavigate();
-
-  useEffect(() => {
+  const [books, setBooks] = useState([]);
+  const [refinedSearch, setRefinedSearch] = useState([]);
+  const navigate = useNavigate();
+  const [filteredBooks, setFilteredBooks] = useState(false);
+  const [orderBy, setOrderBy] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  
+    useEffect(() => {
     const retrieveBookList = async () => {
       try {
         const data = await getBooks();
-        setBookData(data);
+        setBooks(data);
       } catch (error) {
-        console.error("Couldnt fetch book list");
+        console.error("Couldn't fetch book list");
       }
     };
     retrieveBookList();
   }, []);
+
 
   const deleteBook = async (book_id) => {
     try {
@@ -45,13 +50,56 @@ export const MyBookList = () => {
 
   const handleClick = () => {
     navigate(`/new_book`);
-  }
+  };
+
+  const handleSortByChange = (event) => {
+    setSortBy(event.target.value)
+  };
+
+  const handleOrderByChange = (event) => {
+    setOrderBy(event.target.value)
+  };
+
+  const handleSortSubmit = ({sortBy, orderBy}) => {
+    const data = [...books];
+    let sortedData;
+
+    if (orderBy === "asc") {
+      sortedData = data.sort((a, b) => a[sortBy].localeCompare(b[sortBy]));
+    } else if (orderBy === "desc") {
+      sortedData = data.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
+    }
+    setFilteredBooks(sortedData);
+  };
 
   return (
     <Container>
       <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>My Book List</Typography>
-           <Grid container spacing={3} justifyContent="space-between" sx={{ paddingTop: '60px'}}>
-        {bookData.map((book) => (
+        <div className="bar-container">
+      <Box>
+        <FormControl variant="filled" sx={{width: 200}}>
+          <InputLabel id="sort-by-label">Sort by</InputLabel>
+          <Select labelId="sort-by-label" id="sortBy" value={sortBy} onChange={handleSortByChange}>
+            <MenuItem value="book_title">Book Title</MenuItem>
+            <MenuItem value="book_author">Author</MenuItem>
+            <MenuItem value="book_genre">Genre</MenuItem>
+            </Select>
+          </FormControl>
+          <FormControl sx={{width: 200}}>
+          <InputLabel id="order-by-label">Order by</InputLabel>
+          <Select labelId="order-by-label" id="orderBy" value={orderBy} onChange={handleOrderByChange}>
+          <MenuItem value="asc">Ascending</MenuItem>
+            <MenuItem value="desc">Descending</MenuItem>
+            </Select>
+          <Link onClick={handleSortSubmit} sx={{paddingTop: 2}}>SUBMIT</Link>
+        </FormControl>
+          </Box>
+          </div>
+      <Grid container spacing={3} justifyContent="space-between" sx={{ paddingTop: '60px' }}>
+        {/* filteredBooks && (
+      
+        ) : */}
+        {books.map((book) => (
           <MyBookCard key={book.book_id} book={book} onRemove={deleteBook} onEdit={updateBookInfo} />
         ))}
       </Grid>

@@ -1,11 +1,10 @@
-import './../../index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyBookCard } from '../MyBookCard/MyBookCard.jsx';
 import { AddBookCard } from '../AddBookCard/AddBookCard.jsx';
 import { SearchBar } from '../SearchBar/SearchBar.jsx';
-import { MyBookList } from '../MyBookList/MyBookList.jsx';
-import { Container} from '@mui/material';
+import { Container, Link, Breadcrumbs } from '@mui/material';
+import './../../index.css';
 
 export const HeaderNav = () => {
   const [isHomeVisible, setIsHomeVisible] = useState(true);
@@ -15,32 +14,31 @@ export const HeaderNav = () => {
   const navigate = useNavigate();
 
   return (
-        <Container>
-      <div className="navbar">
-        <nav className="navbar">
-          <a href="#home" className="aNav" onClick={() => {
+    <Container>
+      <Breadcrumbs aria-label="breadcrumb" sx={{backgroundColor: '#A74165', color: '#f0e3e5',
+  alignContent: 'space-between', justifyItems: 'center', padding: '10px'}}>
+      <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/1`);
-          }}>Home</a>
-          <a className="aNav" onClick={() => {
+        }}>Home</Link>
+           <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/books`);
-        }}>My books</a>
-        <a className="aNav" onClick={() => {
+        }}>My books</Link>
+        <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/favourite_books`);
-          }}>Favourite books</a>
-          <a className="aNav" onClick={() => {
+          }}>Favourite books</Link>
+          <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/new_book`);
-        }}>Add book</a>
-          <a href="#myReviews"  className="aNav" onClick={() => {
+        }}>Add book</Link>
+          {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/ratings`);
-          }}>My reviews</a>
-         <a className="aNav" onClick={() => {
+          }}>My reviews</Link> */}
+         {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/books`);
-          }}>All books</a>
-        </nav>
+          }}>All books</Link> */}
+      </Breadcrumbs>
         {isMyBooksVisible && <MyBookCard />}
         {/* {isMyReviewsVisible && <RatingsList />} */}
         {isAddBookVisible && <AddBookCard />}
-      </div>
       </Container>
   );
 };

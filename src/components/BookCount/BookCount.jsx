@@ -13,7 +13,7 @@ export const BookCount = () => {
           setCount(data.length);
           console.log(data.length);
         } catch (error) {
-          console.error("Couldn't fetch book count:", error);
+          console.error("Error:", error);
         }
       };
       getBookCount();

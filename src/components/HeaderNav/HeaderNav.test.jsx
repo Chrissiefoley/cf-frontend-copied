@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import React from "react";
+import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { BrowserRouter } from 'react-router-dom';
 import { HeaderNav } from './HeaderNav';
 import { waitFor } from '@testing-library/dom'; 
@@ -21,16 +23,16 @@ describe ('HeaderNav', () => {
             <HeaderNav />
         </BrowserRouter>);
       
-      expect(screen.getByText("My books").toBeInTheDocument());
+      expect(screen.getByText("My books")).toBeInTheDocument();
   });
 
-    it('nav links are clickable and navigate to correct page ', async () => {
+  it('nav links are clickable and navigate to correct page ', async () => {
+      const user = userEvent.setup();
         render(
         <BrowserRouter>
             <HeaderNav />
-        </BrowserRouter>);
-        await useEvent.click(screen.getByText("My books"));
-
+          </BrowserRouter>);
+        await user.click(screen.getByText("My books"));
         await waitFor(() => {
             expect(mockUseNavigate).toHaveBeenCalledWith("/mybooks");
     })

@@ -1,21 +1,23 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
-import { getBooks } from '../../client.js';
+import { Container, Grid, Typography, Button, List, ListItem, Box, Fab } from '@mui/material';
+import { getFavourites, postFavourites, updateFavourites } from '../../client.js';
+import AddIcon from '@mui/icons-material/Add';
 
 export const TopRated = () => {
-  const [topFiveList, setTopFiveList] = React.useState([]);
-
-  const dragBook = React.useRef(0);
-  const draggedOverBook = React.useRef(0);
+  const [topFiveList, setTopFiveList] = useState([]);
+  const [favouritesCreated, setFavouritesCreated] = useState(false);
+  const dragBook = useRef(0);
+  const draggedOverBook = useRef(0);
 
   useEffect(() => {
       const getFavouriteBooks = async () => {
       try {
-          const data = await getBooks();
+          const data = await getFavourites();
           const topBooks = data.slice(0, 5);
           setTopFiveList(topBooks);
       } catch (error) {
-        console.error("Couldnt fetch favourite books");
+        console.error("Couldnt fetch favourite books", error);
       }
     };
     getFavouriteBooks();
@@ -29,10 +31,16 @@ export const TopRated = () => {
     setTopFiveList(topFiveClone);
   };
 
-  const handleClick = () => {
+  const handleClick = async (book) => {
     if (topFiveList.length < 5) {
       setTopFiveList([...topFiveList, book]);
-      // setBookItem({});
+      try {
+        await postFavourites(book);
+        setFavouritesCreated(true);
+        getFavouriteBooks();
+      } catch (error) {
+        console.error("Couldnt post favourite books", error);
+      }
     }
   };
 
@@ -41,20 +49,30 @@ export const TopRated = () => {
     setTopFiveList(newTopFiveList);
   };
 
-  const makeFavourite = (index) => {
+  const makeFavourite = async (index) => {
     const newTopFiveList = [...topFiveList];
     const [movedItem] = newTopFiveList.splice(index, 1);
     newTopFiveList.unshift(movedItem);
     setTopFiveList(newTopFiveList);
+};
+  
+  const updateFavourites = async (books) => {
+    try {
+      await updateFavourites(books);
+      getFavouriteBooks();
+    } catch (error) {
+      console.error("Couldnt post updated favourite books", error);
+    }
   };
 
 
-  return (
-    <>
-      <h2>My Top 5 Favourite Books</h2>
-      <ul>
+return (
+    <Container>
+       <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>My Top 5 Favourites</Typography>
+    {favouritesCreated && (
+      <Grid>
         {topFiveList.map((book, index) => (
-          <div
+          <List
             key={book.book_id || index}
             className="card"
             draggable
@@ -67,31 +85,35 @@ export const TopRated = () => {
             onDragEnd={handleSort}
             onDragOver={(event) => event.preventDefault()}
           >
-                <li>{index} {book.book_title} 
-              <button
+            <ListItem>{index} {book.book_title}
+              <Button
                 className="remove_button"
                 onClick={() => removeItem(index)}
               >
                 Remove from favourites
-              </button>
-              <button
+              </Button>
+              <Button
                 className="favourite_button"
                 onClick={() => makeFavourite(index)}
               >
                 Make number 1
-                    </button>
-                </li>
-                  <button
-                className="updatefavourite_button"
-                onClick={() => makeFavourite(index)}
-              >
-                Update favourites list
-              </button>
-          </div>
+              </Button>
+            </ListItem>
+            <Button
+              className="updatefavourite_button"
+              onClick={() => updateFavourites(index)}
+            >
+              Update favourites list
+            </Button>
+          </List>
         ))}
-      </ul>
-      {/* <button>View all my book ratings</button>
-      <button>Set new top 5 books</button> */}
-    </>
+      </Grid>)} 
+    {!favouritesCreated && (
+      <Box alignItems="end">
+        {/* <MyBookList/> */}
+        <Fab colour="secondary" aria-label="add" onClick={handleClick}><AddIcon /></Fab>
+      </Box>
+    )}
+      </Container>
   );
 };

@@ -87,7 +87,6 @@ export default function App() {
         </Routes>
         </BrowserRouter>
         </Container>
-      {/* <TopRated /> */}
     </div>
   );
 };

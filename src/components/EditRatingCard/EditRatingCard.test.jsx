@@ -9,7 +9,7 @@ jest.mock("../../client.js", () => ({
 }));
 
 describe('AddBookCard', () => {
-    it('renders the AddBookCard component successfully', () => {
+    it('renders the BookCard component successfully', () => {
         render(<AddBookCard />);
         expect(screen.getByRole('textbox', { name: /book title/i })).toBeInTheDocument();
         expect(screen.getByRole('textbox', { name: /author name/i })).toBeInTheDocument();

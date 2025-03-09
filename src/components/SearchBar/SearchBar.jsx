@@ -1,7 +1,7 @@
 import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
 import { getBooks } from '../../client.js';
-import { Container} from '@mui/material';
+import { Container, TextField, Button, Autocomplete } from '@mui/material';
 
 export const SearchBar = () => {
   const [books, setBooks] = useState([]);
@@ -19,25 +19,26 @@ export const SearchBar = () => {
 
   return (
     <Container>
-    <div className="searchouter-container">
-      <div className="searchbar-container">
-      <input
-        name={name}
-        className="search-input"
-        type="text"
-        placeholder="Search for a book"
-        value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
+    <div className="outer-container">
+        <div className="bar-container">
+          <Autocomplete 
+            options={books.map((book) => book_title)}
+            renderInput={(params) =>
+              <TextField
+                {...params}
+                name={name}
+                className="search-input"
+                type="text"
+                placeholder="Search for a book"
+                aria-label="Search bar"
+                role="textbox"
+                value={searchTerm}
+                sx={{width: 200}}
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                }}/>}
       />
-      <button onClick={handleSearch}>Search</button>
-      <div>
-        {books.map((book) => (
-          <MyBookCard key={book.book_id} book={book} onRemove={deleteBook} onEdit={updateBookInfo} />
-      ))}
-      </div>
-      <div id="result"></div>
+      <Button onClick={handleSearch} sx={{marginLeft: 2, paddingLeft: 2, paddingRight: 2}}>Search</Button>
       </div>
       </div>
       </Container>

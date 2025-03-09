@@ -2,13 +2,14 @@ import './../../index.css';
 import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../client.js';
 import { EditBookCard } from './../../components/EditBookCard/EditBookCard.jsx';
-import { Card, Button, Typography } from '@mui/material';
+import { Card, Button, Typography, Rating, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const MyBookCard = ({ book, onRemove, onEdit }) => {
   const { book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = book;
   // const [seeMoreDescription, setSeeMoreDescription] = useState(null);
   const [editPopUp, setEditPopUp] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const handleRemove = () => {
     onRemove(book.book_id);
@@ -16,6 +17,8 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
 
   const handleEdit = () => {
     onEdit(book);
+    setEditPopUp(false);
+    setAnchorEl(null);
   }
 
   const editPopOver = (event) => {
@@ -56,17 +59,31 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
           paddingTop: '5px',
            margin: '5px',
         }}>{clipDescription(book_description)}</Typography>
+         <Box
+      display="flex"
+      justifyContent="center"
+          alignItems="center"
+          sx={{paddingTop:"10px"}}
+    >
+        <Rating
+          name="book_rating"
+          size="small"
+          value={book_rating}
+          precision={0.5}
+          readOnly
+          ></Rating>
+        </Box>
          <Typography variant="body2" sx={{
             textAlign: 'center',
           paddingTop: '5px',
            margin: '5px',
-          }}>{book_rating}</Typography>
+          }}></Typography>
         <Button variant="text" onClick={handleRemove} startIcon={<DeleteIcon />}>Remove book</Button>
         <Button variant="text" color="secondary" onClick={editPopOver}>Edit book</Button>
         {/* <button className="removebutton" onClick={handleRemove}>Remove book</button>
         <button className="editbutton" onClick={editPopOver}>Edit book</button> */}
         {editPopUp && (
-          <EditBookCard book={book} onEdit={handleEdit} />
+          <EditBookCard book={book} onEdit={handleEdit} anchorEl={anchorEl} />
         )}
         </Card>
     </div>

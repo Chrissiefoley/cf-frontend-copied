@@ -1,9 +1,7 @@
 import React from "react";
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BookCount } from './BookCount.jsx';
-import { waitFor } from '@testing-library/dom'; 
 import { getBooks } from "../../client.js";
-import '@testing-library/jest-dom';
 
 const mockGetBooks = [
     {
@@ -30,12 +28,28 @@ beforeEach(() => {
     getBooks.mockClear();
 });
 
-describe ('BookCount', () => {
+describe('BookCount', () => {
     it('renders book count', async () => {
         getBooks.mockResolvedValue(mockGetBooks);
         render(<BookCount />);
         await waitFor(() => {
- expect(screen.getByText("Book count: 2").toBeInTheDocument());
+            expect(screen.getByText("Book count: 2")).toBeInTheDocument();
         })
-  })
+    })
+
+    it('should render Book count: 0 if no books able to be retrieved', async () => {
+        getBooks.mockResolvedValue([]);
+        render(<BookCount />);
+        await waitFor(() => {
+            expect(screen.getByText("Book count: 0")).toBeInTheDocument();
+        })
+    })
+
+    // it('throws error if getBooks failed to retrieve book count', async () => {
+    //     getBooks.mockRejectedValue(new Error(`Couldn't fetch book count`));
+    //     render(<BookCount />);
+    //     await waitFor(() => {
+    //         expect(screen.getByText("Error: Couldn't fetch book count").toBeInTheDocument());
+    //     })
+    // })
 });
