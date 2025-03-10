@@ -62,7 +62,7 @@ export const updateBook = async (book) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(book),
     });
 
     if (!response.ok) {
@@ -77,18 +77,13 @@ export const updateBook = async (book) => {
 };
 
 
-export const removeBook = async (book_id) => {
+export const removeBook = async () => {
   const response = await fetch(`http://localhost:8080/api/books/${book_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      book_id: book_id
-    })
   });
-  // const data = await response.json();
-  // return data;
 };
 
 export const getGenres = async () => {
@@ -119,16 +114,17 @@ export const getGenres = async () => {
 
 
 
-
 export const getFavourites = async () => {
   const resultElement = document.getElementById("result");
   resultElement.textContent = "Loading...";
 
   try {
-    const response = await fetch(`/api/favourite_books`, {
+    const response = await fetch(`http://localhost:8080/api/favourite_books`, {
       method: "GET",
-      headers: {
+      headers: { 
+        "Accept": "application/json",
         "Content-Type": "application/json",
+
       },
     });
 
@@ -137,19 +133,14 @@ export const getFavourites = async () => {
     }
 
     const data = await response.json();
-    resultElement.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+    resultElement.textContent = "";
+    return data;
   } catch (error) {
     resultElement.textContent = `Error: ${error.message}`;
-  }
-};
+    throw error;
+  }};
 
 export const postFavourites = async (newFavourites) => {
-  const { top1, top2, top3, top4, top5 } = newFavourites;
- 
-   if (!validInput) {
-      throw new Error(`Cannot add book - missing book details`)
-    }
-
   try {
     const response = await fetch(`http://localhost:8080/api/new_favourites`, {
       method: "POST",

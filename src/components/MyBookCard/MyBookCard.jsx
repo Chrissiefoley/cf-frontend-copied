@@ -6,13 +6,13 @@ import { Card, Button, Typography, Rating, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const MyBookCard = ({ book, onRemove, onEdit }) => {
-  const { book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = book;
+  const { book_id, book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = book;
   // const [seeMoreDescription, setSeeMoreDescription] = useState(null);
   const [editPopUp, setEditPopUp] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleRemove = () => {
-    onRemove(book.book_id);
+    onRemove(book_id);
   };
 
   const handleEdit = () => {
@@ -36,9 +36,8 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   }
   
   return (
-    // <div className="cardcontainer" id="list_result">
     <div>
-      <Card sx={{ maxWidth: 250 }} key={book.book_id}>
+      <Card sx={{ maxWidth: 250, height: 300 }} key={book.book_id}>
         <Typography variant="subtitle1" sx={{
             fontSize: '18px',
             color: '#A74165',

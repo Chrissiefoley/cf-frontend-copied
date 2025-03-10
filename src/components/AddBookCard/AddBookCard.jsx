@@ -32,7 +32,7 @@ export const AddBookCard = () => {
       <Container sx={{ justifyContent: "center", display: "flex", alignItems: "center", flexDirection: "column" }}>
         <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px', paddingBottom: '20px' }}>Add a new book</Typography>
         <Card>
-          <Box display="flex" sx={{ paddingTop: 5, paddingBottom: 5, paddingLeft: 15, paddingRight: 15, justifyContent: "center", flexDirection: "column", backgroundColor: '#f1e1e0' }}>
+          <Box display="flex" sx={{ paddingTop: 5, paddingBottom: 5, paddingLeft: 5, paddingRight: 5, justifyContent: "center", flexDirection: "column", backgroundColor: '#f1e1e0', width: 300 }}>
             <TextField
               sx={{ paddingBottom: 2 }}
               type="text"

@@ -2,6 +2,7 @@ import './../../index.css';
 import React, { useState, useEffect, useNavigate, useRef } from 'react';
 import { postBook, getBooks } from '../../client.js';
 import { Popover, Card, TextField, Rating, Button } from '@mui/material';
+import { updateBook } from '../../client.js';
 
 
 export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
@@ -28,8 +29,9 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
 
 
   const handleEdit = async () => {
-    const updatedBookInformation = {...book, book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };
-  await onEdit(updatedBookInformation);
+  const updatedBookInformation = {...book, book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };
+    await onEdit(updatedBookInformation);
+    await updateBook(updatedBookInformation);
   };
 
   const handleClose = () => {
@@ -122,7 +124,8 @@ const id = open ? 'simple-popover' : undefined;
               onChangeActive={(event, newHover) => {
                 setHover(newHover);
               }} />
-        <Button onClick={handleEdit}>Submit changes</Button>
+          <Button onClick={handleEdit}>Submit changes</Button>
+          <Button onClick={handleClose}>Close</Button>
             </Card>
           </Popover>
       </div>

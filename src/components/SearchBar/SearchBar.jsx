@@ -6,15 +6,25 @@ import { Container, TextField, Button, Autocomplete } from '@mui/material';
 export const SearchBar = () => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState(false);
 
   useEffect(() => {
-    getBooks(); 
+    const retrieveBookList = async () => {
+      try {
+        const data = await getBooks();
+        setBooks(data);
+      } catch (error) {
+        console.error("Couldn't fetch book list for search bar");
+      }
+    };
+    retrieveBookList();
   }, []);
 
   const handleSearch = () => {
     const searchResults = books.filter(book => book.book_title.toLowerCase().includes(searchTerm.toLowerCase())
     )
     setBooks(searchResults);
+    setFileredBooks(true);
   };
 
   return (
@@ -22,7 +32,8 @@ export const SearchBar = () => {
     <div className="outer-container">
         <div className="bar-container">
           <Autocomplete 
-            options={books.map((book) => book_title)}
+            freeSolo
+            options={books.map((book) => book.book_title)}
             renderInput={(params) =>
               <TextField
                 {...params}
@@ -38,8 +49,13 @@ export const SearchBar = () => {
                   setSearchTerm(e.target.value);
                 }}/>}
       />
-      <Button onClick={handleSearch} sx={{marginLeft: 2, paddingLeft: 2, paddingRight: 2}}>Search</Button>
-      </div>
+          <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>Search</Button>
+        </div>
+        {filteredBooks && (
+          <div id="result">
+            <MyBookList />
+            </div>
+        )}
       </div>
       </Container>
   );
