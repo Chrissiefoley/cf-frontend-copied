@@ -1,9 +1,11 @@
 import './../../index.css';
-import React, { useState, useEffect, useNavigate, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getBooks } from '../../client.js';
-import { Container, TextField, Button, Autocomplete } from '@mui/material';
+import { Container, TextField, Button, Autocomplete, Box } from '@mui/material';
+import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
 
 export const SearchBar = () => {
+  const [searchResult, setSearchResult] = useState([]);
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBooks, setFilteredBooks] = useState(false);
@@ -21,42 +23,53 @@ export const SearchBar = () => {
   }, []);
 
   const handleSearch = () => {
-    const searchResults = books.filter(book => book.book_title.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-    setBooks(searchResults);
-    setFileredBooks(true);
+    const result = books.filter(book => book.book_title.toLowerCase() === (searchTerm.toLowerCase()))
+    setSearchResult(result);
+    setFilteredBooks(true);
   };
+
+  const handleClose = () => {
+    setSearchResult([]);
+    setFilteredBooks(false);
+  }
 
   return (
     <Container>
-    <div className="outer-container">
-        <div className="bar-container">
+    <Box sx={{ paddingTop: 2, paddingBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <Autocomplete 
             freeSolo
             options={books.map((book) => book.book_title)}
+            onInputChange={(event, value) => {
+              setSearchTerm(value);
+            }}
             renderInput={(params) =>
               <TextField
                 {...params}
-                name={name}
                 className="search-input"
                 type="text"
                 placeholder="Search for a book"
                 aria-label="Search bar"
                 role="textbox"
-                value={searchTerm}
                 sx={{width: 200}}
-                onChange={(e) => {
-                  setSearchTerm(e.target.value);
-                }}/>}
+                />}
       />
-          <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>Search</Button>
-        </div>
-        {filteredBooks && (
-          <div id="result">
-            <MyBookList />
-            </div>
+        {filteredBooks ? (
+          <>
+            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Button onClick={handleClose} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2, color: 'red'}}>GO BACK</Button>
+            <div id="result"></div>
+            </Box>
+          <Box>
+            <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} />
+              </Box>
+            </>            
+      ) : (
+              <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SEARCH</Button>
+                <div id="result"></div>
+                </Box>
         )}
-      </div>
+ </Box>
       </Container>
   );
 };

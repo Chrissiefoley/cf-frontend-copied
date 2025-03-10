@@ -1,6 +1,6 @@
 import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Fab, Box, FormControl, InputLabel, Select, MenuItem, Link } from '@mui/material';
+import { Container, Grid, Typography, Fab, Box, FormControl, InputLabel, Select, MenuItem, Link, Button } from '@mui/material';
 import { getBooks, removeBook, updateBook } from  '../../client.js';
 import { SearchBar } from './../../components/SearchBar/SearchBar.jsx';
 import { MyBookCard } from './../../components/MyBookCard/MyBookCard.jsx';
@@ -9,12 +9,13 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { Sorting } from './../../components/Sorting/Sorting.jsx';
 
-export const MyBookList = ({orderBy, sortBy}) => {
+export const MyBookList = ({ orderBy, sortBy, filteredBooks, searchResult }) => {
   const [books, setBooks] = useState([]);
-  const [refinedSearch, setRefinedSearch] = useState([]);
   const navigate = useNavigate();
+
+  const display = filteredBooks ? searchResult : books;
   
-    useEffect(() => {
+  useEffect(() => {
     const retrieveBookList = async () => {
       try {
         const data = await getBooks();
@@ -54,25 +55,32 @@ export const MyBookList = ({orderBy, sortBy}) => {
 
   return (
     <Container>
-      <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>My Book List</Typography>
+      <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>{filteredBooks ? "Search Result" : "My Book List"}</Typography>
         <div className="bar-container">
         <Sorting books={books} />
           </div>
       <Grid container spacing={3} justifyContent="center" sx={{ paddingTop: '60px' }}>
-        {/* filteredBooks && (
-      
-        ) : */}
-        {books.map((book) => (
-          <Grid item>
-          <MyBookCard key={book.book_id} book={book} onRemove={deleteBook} onEdit={updateBookInfo} />
+        {display.map((book) => (
+          <Grid item key={book.book_id}>
+            <MyBookCard key={book.book_id} book={book} onRemove={deleteBook} onEdit={updateBookInfo} />
           </Grid>
-        ))}
+))}
       </Grid>
-      <Box alignItems="end">
-        <Fab colour="secondary" aria-label="add" onClick={handleClick}><AddIcon /></Fab>
-        </Box>
+      {!filteredBooks && (
+        <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px'} }>
+          <Fab colour="secondary" aria-label="add" onClick={handleClick}><AddIcon /></Fab>
           <BookCount />
-       </Container>
-  );
+                  </Box>
+      )}
+      <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>Search Result</Typography>
+      <Grid container spacing={3} justifyContent="center" sx={{ paddingTop: '60px' }}>
+        {display.map((book) => (
+          <Grid item key={book.book_id}>
+            <MyBookCard key={book.book_id} book={book} onRemove={deleteBook} onEdit={updateBookInfo} />
+          </Grid>
+))}
+      </Grid>
+      </Container>
+);
 };
 

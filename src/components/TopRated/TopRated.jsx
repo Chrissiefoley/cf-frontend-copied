@@ -1,5 +1,5 @@
 import './../../index.css';
-import React, { useState, useEffect, useNavigate, useRef } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import { Container, Grid, Typography, Button, List, ListItem, Box, Fab } from '@mui/material';
 import { getFavourites, postFavourites, updateFavourites } from '../../client.js';
 import AddIcon from '@mui/icons-material/Add';
@@ -10,16 +10,17 @@ export const TopRated = () => {
   const dragBook = useRef(0);
   const draggedOverBook = useRef(0);
 
-  useEffect(() => {
-      const getFavouriteBooks = async () => {
-      try {
+  const getFavouriteBooks = async () => {
+    try {
           const data = await getFavourites();
           const topBooks = data.slice(0, 5);
           setTopFiveList(topBooks);
-      } catch (error) {
+    } catch (error) {
         console.error("Couldnt fetch favourite books", error);
-      }
+     }
     };
+
+  useEffect(() => {
     getFavouriteBooks();
   }, []);
     
@@ -56,9 +57,9 @@ export const TopRated = () => {
     setTopFiveList(newTopFiveList);
 };
   
-  const updateFavourites = async (books) => {
+  const handleUpdateFavourites = async () => {
     try {
-      await updateFavourites(books);
+      await updateFavourites(topFiveList);
       getFavouriteBooks();
     } catch (error) {
       console.error("Couldnt post updated favourite books", error);
@@ -101,7 +102,7 @@ return (
             </ListItem>
             <Button
               className="updatefavourite_button"
-              onClick={() => updateFavourites(index)}
+              onClick={() => handleUpdateFavourites(index)}
             >
               Update favourites list
             </Button>

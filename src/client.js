@@ -55,14 +55,14 @@ export const postBook = async (newBook) => {
   }
 };
 
-export const updateBook = async (book) => {
+export const updateBook = async (updatedBookInformation) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/books/${book.book_id}`, {
+    const response = await fetch(`http://localhost:8080/api/books/${updatedBookInformation.book_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(book),
+      body: JSON.stringify(updatedBookInformation),
     });
 
     if (!response.ok) {
@@ -70,14 +70,15 @@ export const updateBook = async (book) => {
     }
 
     const data = await response.json();
-    console.log("Book has been updated")
+    console.log("Book has been updated", data)
+    return data;
   } catch (error) {
     console.error(`Error: ${error.message}`);
   }
 };
 
 
-export const removeBook = async () => {
+export const removeBook = async (book_id) => {
   const response = await fetch(`http://localhost:8080/api/books/${book_id}`, {
     method: "DELETE",
     headers: {

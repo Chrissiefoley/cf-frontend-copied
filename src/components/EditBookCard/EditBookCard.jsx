@@ -6,8 +6,6 @@ import { updateBook } from '../../client.js';
 
 
 export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
-  // const [newBookCardOpen, setNewBookCardOpen] = useState(false);
-  // const [updatedBook, setUpdatedBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '', book_rating: '' });
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newPublishedDate, setNewPublishedDate] = useState("");
@@ -29,9 +27,23 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
 
 
   const handleEdit = async () => {
-  const updatedBookInformation = {...book, book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };
-    await onEdit(updatedBookInformation);
-    await updateBook(updatedBookInformation);
+    try {
+      const updatedBookInformation = {
+        updateData: {
+          book_title: newTitle,
+          book_author: newAuthor,
+          book_publishedDate: newPublishedDate,
+          book_genre: newGenre,
+          book_description: newDescription,
+          book_rating: newRating
+        },
+        book_id: book.book_id
+        };
+      await updateBook(updatedBookInformation);
+      onEdit(updatedBookInformation);
+    } catch (error) {
+      console.error("Failed update:", error)
+    }
   };
 
   const handleClose = () => {
@@ -39,12 +51,12 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
   }
 
 const isOpen = Boolean(anchorEl);
-const id = open ? 'simple-popover' : undefined;
+const id = isOpen ? 'simple-popover' : undefined;
 
   return (
 <div>
     <Popover id={id} open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
-      <Card sx={{ maxWidth: 250 }} key={book.book_id}>
+      <Card sx={{ maxWidth: 250}} key={book.book_id}>
       <TextField
             required
             className="inputBar"
@@ -90,7 +102,7 @@ const id = open ? 'simple-popover' : undefined;
             type="text"
             placeholder="Genre"
             name="book_genre"
-            aria-label="Gnere"
+            aria-label="Genre"
             role="textbox"
             value={newGenre}
             onChange={(e) => {

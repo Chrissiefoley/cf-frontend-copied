@@ -12,7 +12,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleRemove = () => {
-    onRemove(book_id);
+    onRemove(book.book_id);
   };
 
   const handleEdit = () => {
@@ -37,7 +37,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   
   return (
     <div>
-      <Card sx={{ maxWidth: 250, height: 300 }} key={book.book_id}>
+      <Card sx={{ maxWidth: 250, height: 300 }} key={book_id}>
         <Typography variant="subtitle1" sx={{
             fontSize: '18px',
             color: '#A74165',
