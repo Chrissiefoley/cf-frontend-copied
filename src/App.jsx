@@ -1,7 +1,8 @@
 import './index.css';
 import React, { useState, useEffect, useRef } from 'react';
-import { Container, Grid, Typography, Fab, GridItem } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Container, Grid, Typography, Fab } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+// import { styled } from '@mui/material/styles';
 import { useNavigate, BrowserRouter, Routes, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
@@ -23,34 +24,22 @@ import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 
 
-
-const handleNavigate = (hash, orderBy, orderDir) => {
-  window.location.hash = hash;
-  getBooks();
-};
-
-const fetchBooks = () => {
-  getBooks();
-};
-  
-// const fetchReviews = () => {
-//   getRatings("book_rating", "asc")
-// };
-
-// const handleAddReview = () => {
-//   postReview(newReview);
-// };
-
-
-
 export default function App() {
+  const [searchResult, setSearchResult] = useState([]);
+  const [filteredBooks, setFilteredBooks] = useState(false);
+  const isMobile = useMediaQuery("(max-width: 600px)");
+
+  const handleSearch = (searchResults) => {
+    setSearchResult(searchResults);
+    setFilteredBooks(searchResults.length > 0);
+  }
+
   return (
-    // <div className="app-container">
     <div>
       <Container>
       <BrowserRouter>
         <HeaderNav />
-          <SearchBar />
+          <SearchBar onSearch={handleSearch} />
           <Typography variant="h1" sx={{
             fontSize: '36px',
             color: '#A74165',
@@ -58,10 +47,14 @@ export default function App() {
             fontWeight: 'bold',
             paddingTop: '20px'
           }}>Personal Book Library</Typography>
-                       {/* <h1 className="pagetitle">Personal Book Library</h1> */}
           <Grid container spacing={1} justifyContent="space-between">
-            {/* <div className="searchouter-container"> */}
-          <Grid item>
+            {isMobile ? (
+              <Grid item>
+            <MyBookTwoSVG className="left-side" width="320px" height="400px" />
+              </Grid>
+            ) : (
+                <>
+            <Grid item>
             <MyBookSVG className="left-side" width="320px" height="400px" />
           </Grid>
           <Grid item>
@@ -69,12 +62,19 @@ export default function App() {
           </Grid>
           <Grid item>
             <MyBookThreeSVG className="left-side" width="320px" height="400px" />
+                  </Grid>
+                  </>
+             )}
           </Grid>
-          </Grid>
-        <Routes>
+           <div style={{ marginTop: '20px' }}></div>
+          <Routes>
+            <Route
+              exact path="/"
+              element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
+          />
         <Route
           exact path="/books"
-          element={<MyBookList />}
+          element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult}/>}
           />
           <Route
           exact path="/favourite_books"

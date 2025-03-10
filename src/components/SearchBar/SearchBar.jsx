@@ -4,11 +4,14 @@ import { getBooks } from '../../client.js';
 import { Container, TextField, Button, Autocomplete, Box } from '@mui/material';
 import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
 
-export const SearchBar = () => {
-  const [searchResult, setSearchResult] = useState([]);
+
+export const SearchBar = ({onSearch}) => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredBooks, setFilteredBooks] = useState(false);
+  const [searchResult, setSearchResult] = useState([]);
+
+
 
   useEffect(() => {
     const retrieveBookList = async () => {
@@ -24,17 +27,14 @@ export const SearchBar = () => {
 
   const handleSearch = () => {
     const result = books.filter(book => book.book_title.toLowerCase() === (searchTerm.toLowerCase()))
-    setSearchResult(result);
-    setFilteredBooks(true);
-  };
-
-  const handleClose = () => {
-    setSearchResult([]);
-    setFilteredBooks(false);
-  }
+    if (onSearch) {
+    onSearch(result);
+  }};
 
   return (
     <Container>
+    <div className="outer-container">
+    <div className="bar-container">
     <Box sx={{ paddingTop: 2, paddingBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
           <Autocomplete 
             freeSolo
@@ -55,21 +55,19 @@ export const SearchBar = () => {
       />
         {filteredBooks ? (
           <>
-            <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-              <Button onClick={handleClose} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2, color: 'red'}}>GO BACK</Button>
-            <div id="result"></div>
-            </Box>
           <Box>
             <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} />
-              </Box>
+          </Box>
             </>            
       ) : (
-              <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-                <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SEARCH</Button>
-                <div id="result"></div>
-                </Box>
-        )}
- </Box>
+          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+            <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SELECT</Button>
+             <div id="result"></div>
+          </Box>
+            )} 
+            </Box>
+        </div>
+        </div>
       </Container>
   );
 };

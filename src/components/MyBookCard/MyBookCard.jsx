@@ -18,7 +18,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   const handleEdit = () => {
     onEdit(book);
     setEditPopUp(false);
-    setAnchorEl(null);
+    // setAnchorEl(null);
   }
 
   const editPopOver = (event) => {
@@ -79,8 +79,6 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
           }}></Typography>
         <Button variant="text" onClick={handleRemove} startIcon={<DeleteIcon />}>Remove book</Button>
         <Button variant="text" color="secondary" onClick={editPopOver}>Edit book</Button>
-        {/* <button className="removebutton" onClick={handleRemove}>Remove book</button>
-        <button className="editbutton" onClick={editPopOver}>Edit book</button> */}
         {editPopUp && (
           <EditBookCard book={book} onEdit={handleEdit} anchorEl={anchorEl} />
         )}

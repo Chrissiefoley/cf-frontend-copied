@@ -36,9 +36,9 @@ export const HeaderNav = () => {
             navigate(`/books`);
           }}>All books</Link> */}
       </Breadcrumbs>
-        {isMyBooksVisible && <MyBookCard />}
+        {/* {isMyBooksVisible && <MyBookCard />} */}
         {/* {isMyReviewsVisible && <RatingsList />} */}
-        {isAddBookVisible && <AddBookCard />}
+        {/* {isAddBookVisible && <AddBookCard />} */}
       </Container>
   );
 };
