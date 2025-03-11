@@ -9,11 +9,13 @@ import AddIcon from '@mui/icons-material/Add';
 import { useNavigate } from 'react-router-dom';
 import { Sorting } from './../../components/Sorting/Sorting.jsx';
 
-export const MyBookList = ({ orderBy, sortBy, filteredBooks, searchResult, onClearFilter }) => {
+export const MyBookList = ({ filteredBooks, searchResult, onClearFilter }) => {
   const [books, setBooks] = useState([]);
+  const [sortedBooks, setSortedBooks] = useState([]);
+  const [isSortedTrue, setIsSortedTrue] = useState(false);
   const navigate = useNavigate();
 
-  const display = filteredBooks && searchResult ? searchResult : books;
+  const display = filteredBooks && searchResult.length > 0 ? searchResult : isSortedTrue ? sortedBooks : books;
   
   const retrieveBookList = async () => {
       try {
@@ -52,8 +54,14 @@ export const MyBookList = ({ orderBy, sortBy, filteredBooks, searchResult, onCle
     navigate(`/new_book`);
   };
 
+  const handleSort = (sortedData) => {
+    setSortedBooks(sortedData);
+    setIsSortedTrue(true);
+  }
+
     const handleClose = () => {
       retrieveBookList();
+      setIsSortedTrue(false);
       if (onClearFilter) {
         onClearFilter();
       }
@@ -63,7 +71,7 @@ export const MyBookList = ({ orderBy, sortBy, filteredBooks, searchResult, onCle
     <Container>
       <Typography variant="h2" sx={{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingTop: '20px' }}>{filteredBooks ? "Search Result" : "My Book List"}</Typography>
         <div className="bar-container">
-        <Sorting books={books}/>
+        <Sorting books={books} onSort={ handleSort} />
       </div>
       <Grid container spacing={3} justifyContent="center" sx={{ paddingTop: '60px' }}>
         {display.map((book) => (
@@ -73,9 +81,9 @@ export const MyBookList = ({ orderBy, sortBy, filteredBooks, searchResult, onCle
         ))}
         {!filteredBooks ? (
           <Box sx={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-            <Fab colour="secondary" aria-label="add" onClick={handleClick}><AddIcon /></Fab>
+            <Fab color="secondary" aria-label="add" onClick={handleClick} sx={{marginRight: '20px'}}><AddIcon /></Fab>
             <Box>
-              <BookCount />
+              <BookCount count={books.length} />
             </Box>
           </Box>
         ) :

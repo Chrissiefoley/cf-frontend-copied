@@ -1,12 +1,11 @@
 import './../../index.css';
-import React, { useState, useEffect, useNavigate, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { postBook, getBooks } from '../../client.js';
 import { Container, Card, TextField, Button, Typography, Box, Grid, Rating, Alert } from '@mui/material';
 import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
 import CheckIcon from '@mui/icons-material/Check';
 
 export const AddBookCard = () => {
-  const [newBook, setNewBook] = useState({ book_title: '', book_author: '', book_publishedDate: '', book_genre: '', book_description: '', book_rating: 0 });
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newPublishedDate, setNewPublishedDate] = useState("");
@@ -14,18 +13,36 @@ export const AddBookCard = () => {
   const [newDescription, setNewDescription] = useState("");
   const [newRating, setNewRating] = useState(0);
   const [hover, setHover] = useState(-1);
-  const [bookAdded, setBookAdded] = useState(false);
+  const [alertStatus, setAlertStatus] = useState("");
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertShow, setAlertShow] = useState(false);
 
-  const handleAddBook = () => {
-    const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };
-    postBook(bookInformation);
-    setBookAdded(true);
+  const handleAddBook = async () => {
+    try {
+      const bookInformation = { book_title: newTitle, book_author: newAuthor, book_publishedDate: newPublishedDate, book_genre: newGenre, book_description: newDescription, book_rating: newRating };   
+      const response = await postBook(bookInformation);
+      setNewTitle("");
+      setNewAuthor("");
+      setNewPublishedDate("");
+      setNewGenre("");
+      setNewDescription("");
+      setNewRating("");
+      setAlertStatus("success")
+      setAlertMessage("Book added to library!")
+      setAlertShow(true);
+    } catch (error) {
+      console.error("Error:", error);
+      setAlertStatus("error")
+      setAlertMessage(error.message || "Book cannot be added. Please check your input.")
+      setAlertShow(true);
+  }
   };
 
+
   return (
-    bookAdded ? (
+    alertShow ? (
       <div>
-      <Alert icon={<CheckIcon fontSize="inherit" />} severity="success">Book added to library!</Alert>
+          <Alert icon={<CheckIcon fontSize="inherit" />} severity={alertStatus}>{alertMessage}</Alert>
           <MyBookList />
       </div>
       ) : (

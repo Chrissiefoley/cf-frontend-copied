@@ -4,10 +4,10 @@ import { Box, FormControl, InputLabel, Select, MenuItem, Link } from '@mui/mater
 import { getBooks } from  '../../client.js';
 import { useNavigate } from 'react-router-dom';  
 
-export const Sorting = ({books}) => {
-    const [orderBy, setOrderBy] = useState("");
-    const [sortBy, setSortBy] = useState("");
-    const [filteredBooks, setFilteredBooks] = useState(false);
+export const Sorting = ({books, onSort}) => {
+  const [orderBy, setOrderBy] = useState("");
+  const [sortBy, setSortBy] = useState("");
+  const [filteredBooks, setFilteredBooks] = useState(false);
 
   const handleSortByChange = (event) => {
     setSortBy(event.target.value)
@@ -17,7 +17,7 @@ export const Sorting = ({books}) => {
     setOrderBy(event.target.value)
   };
 
-  const handleSortSubmit = ({sortBy, orderBy}) => {
+  const handleSortSubmit = ({ sortBy, orderBy }) => {
     const data = [...books];
     let sortedData;
 
@@ -26,6 +26,7 @@ export const Sorting = ({books}) => {
     } else if (orderBy === "desc") {
       sortedData = data.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
     }
+    onSort(sortedData);
     setFilteredBooks(sortedData);
   };
 
@@ -37,17 +38,16 @@ export const Sorting = ({books}) => {
                 <Select labelId="sort-by-label" id="sortBy" value={sortBy} onChange={handleSortByChange}>
                     <MenuItem value="book_title">Book Title</MenuItem>
                     <MenuItem value="book_author">Author</MenuItem>
-                    <MenuItem value="book_genre">Genre</MenuItem>
                 </Select>
             </FormControl>
             <FormControl sx={{ width: 200 }}>
                 <InputLabel id="order-by-label">Order by</InputLabel>
                 <Select labelId="order-by-label" id="orderBy" value={orderBy} onChange={handleOrderByChange}>
-                    <MenuItem value="asc">Ascending</MenuItem>
-                    <MenuItem value="desc">Descending</MenuItem>
+                    <MenuItem value="asc">A-Z</MenuItem>
+                    <MenuItem value="desc">Z-A</MenuItem>
                 </Select>
                 <Link onClick={() => handleSortSubmit({ sortBy, orderBy })} sx={{ paddingTop: 2 }}>SUBMIT</Link>
-            </FormControl>
+          </FormControl>
             </Box>
             </>
     )

@@ -2,13 +2,11 @@ import './index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Grid, Typography, Fab } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-// import { styled } from '@mui/material/styles';
-import { useNavigate, BrowserRouter, Routes, Route } from 'react-router-dom';
+import { useNavigate, BrowserRouter, Routes, Route} from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from './supabaseClient.js';
-import { getBooks, postBook } from './client.js';
 import { AddBookCard } from './components/AddBookCard/AddBookCard.jsx';
 import { HeaderNav } from './components/HeaderNav/HeaderNav.jsx';
 import { MyBookCard } from './components/MyBookCard/MyBookCard.jsx';
@@ -74,7 +72,7 @@ export default function App() {
           />
         <Route
           exact path="/books"
-          element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult}/>}
+          element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
           />
           <Route
           exact path="/favourite_books"
@@ -83,7 +81,8 @@ export default function App() {
         <Route
           exact path="/new_book"
           element={<AddBookCard />}
-          />
+            />
+
         </Routes>
         </BrowserRouter>
         </Container>

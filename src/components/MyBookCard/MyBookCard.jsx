@@ -18,7 +18,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   const handleEdit = () => {
     onEdit(book);
     setEditPopUp(false);
-    // setAnchorEl(null);
+    setAnchorEl(null);
   }
 
   const editPopOver = (event) => {
@@ -26,10 +26,9 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
     setAnchorEl(event.currentTarget);
   }
   
-  
   const clipDescription = (book_description) => {
-    const maxLength = 200;
-    if (book_description && book_description.length > 200) {
+    const maxLength = 100;
+    if (book_description && book_description.length > 100) {
       return book_description.substring(0, maxLength) + '...';
     }
     return book_description || "";
@@ -37,7 +36,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
   
   return (
     <div>
-      <Card sx={{ maxWidth: 250, height: 300 }} key={book_id}>
+      <Card sx={{ maxWidth: 250, height: 320 }} key={book_id}>
         <Typography variant="subtitle1" sx={{
             fontSize: '18px',
             color: '#A74165',
@@ -58,6 +57,11 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
           paddingTop: '5px',
            margin: '5px',
         }}>{clipDescription(book_description)}</Typography>
+        <Typography variant="body2" sx={{
+            textAlign: 'center',
+          paddingTop: '5px',
+           margin: '5px',
+        }}>{book_genre}</Typography>
          <Box
       display="flex"
       justifyContent="center"
@@ -80,7 +84,7 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
         <Button variant="text" onClick={handleRemove} startIcon={<DeleteIcon />}>Remove book</Button>
         <Button variant="text" color="secondary" onClick={editPopOver}>Edit book</Button>
         {editPopUp && (
-          <EditBookCard book={book} onEdit={handleEdit} anchorEl={anchorEl} />
+          <EditBookCard book={book} onEdit={handleEdit} anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
         )}
         </Card>
     </div>

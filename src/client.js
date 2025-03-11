@@ -49,9 +49,10 @@ export const postBook = async (newBook) => {
     }
 
     const data = await response.json();
-    console.log(data);
+    return data;
   } catch (error) {
     console.error(`Error: ${error.message}`);
+    throw error;
   }
 };
 
@@ -70,10 +71,10 @@ export const updateBook = async (updatedBookInformation) => {
     }
 
     const data = await response.json();
-    console.log("Book has been updated", data)
     return data;
   } catch (error) {
     console.error(`Error: ${error.message}`);
+    throw error;
   }
 };
 

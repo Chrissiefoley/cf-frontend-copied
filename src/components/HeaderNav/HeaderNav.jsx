@@ -23,9 +23,9 @@ export const HeaderNav = () => {
            <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/books`);
         }}>My books</Link>
-        <Link sx={{ color: '#ded2d4'}} onClick={() => {
+        {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/favourite_books`);
-          }}>Favourite books</Link>
+          }}>Favourite books</Link> */}
           <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/new_book`);
         }}>Add book</Link>

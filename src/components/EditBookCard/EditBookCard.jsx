@@ -1,5 +1,5 @@
 import './../../index.css';
-import React, { useState, useEffect, useNavigate, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { postBook, getBooks } from '../../client.js';
 import { Popover, Card, TextField, Rating, Button } from '@mui/material';
 import { updateBook } from '../../client.js';
@@ -40,7 +40,17 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
         book_id: book.book_id
         };
       await updateBook(updatedBookInformation);
-      onEdit(updatedBookInformation);
+      const updatedBook = {
+        book_id: book.book_id,
+        book_title: newTitle,
+        book_author: newAuthor,
+        book_publishedDate: newPublishedDate,
+        book_genre: newGenre,
+        book_description: newDescription,
+        book_rating: newRating
+      };
+      onEdit(updatedBook);
+      handleClose();
     } catch (error) {
       console.error("Failed update:", error)
     }
