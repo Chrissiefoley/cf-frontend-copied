@@ -1,7 +1,7 @@
 import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { postBook, getBooks } from '../../client.js';
-import { Container, Card, TextField, Button, Typography, Box, Grid, Rating, Alert } from '@mui/material';
+import { postBook } from '../../client.js';
+import { Container, Card, TextField, Button, Typography, Box, Rating, Alert } from '@mui/material';
 import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
 import CheckIcon from '@mui/icons-material/Check';
 

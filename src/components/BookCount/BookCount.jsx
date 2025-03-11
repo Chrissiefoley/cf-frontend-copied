@@ -1,6 +1,5 @@
 import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { getBooks } from '../../client.js';
 import { Typography } from '@mui/material';
 
 export const BookCount = ({count}) => {

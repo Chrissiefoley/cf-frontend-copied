@@ -5,10 +5,8 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AddBookCard } from './components/AddBookCard/AddBookCard.jsx';
 import { HeaderNav } from './components/HeaderNav/HeaderNav.jsx';
-import { MyBookCard } from './components/MyBookCard/MyBookCard.jsx';
 import { MyBookList } from './components/MyBookList/MyBookList.jsx';
 import { SearchBar } from './components/SearchBar/SearchBar.jsx';
-import { TopRated } from './components/TopRated/TopRated.jsx';
 import { ReactComponent as MyBookSVG } from './components/assets/undraw_reading-time_gcvc.svg';
 import { ReactComponent as MyBookTwoSVG } from './components/assets/undraw_reading_atc8.svg';
 import { ReactComponent as MyBookThreeSVG } from './components/assets/undraw_relaxed-reading_wfkr.svg';
@@ -68,10 +66,6 @@ export default function App() {
           exact path="/books"
           element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
           />
-          {/* <Route
-          exact path="/favourite_books"
-          element={<TopRated />}
-          /> */}
         <Route
           exact path="/new_book"
           element={<AddBookCard />}

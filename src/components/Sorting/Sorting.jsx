@@ -1,13 +1,10 @@
    import './../../index.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Box, FormControl, InputLabel, Select, MenuItem, Link } from '@mui/material';
-import { getBooks } from  '../../client.js';
-import { useNavigate } from 'react-router-dom';  
 
 export const Sorting = ({books, onSort}) => {
   const [orderBy, setOrderBy] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState(false);
 
   const handleSortByChange = (event) => {
     setSortBy(event.target.value)
@@ -27,7 +24,6 @@ export const Sorting = ({books, onSort}) => {
       sortedData = data.sort((a, b) => b[sortBy].localeCompare(a[sortBy]));
     }
     onSort(sortedData);
-    setFilteredBooks(sortedData);
   };
 
     return (

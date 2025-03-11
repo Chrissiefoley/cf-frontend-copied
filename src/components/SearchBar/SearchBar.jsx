@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, TextField, Button, Autocomplete, Box } from '@mui/material';
 import { getBooks } from '../../client.js';
-import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
 
 export const SearchBar = ({onSearch}) => {
   const [books, setBooks] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredBooks, setFilteredBooks] = useState(false);
-  const [searchResult, setSearchResult] = useState([]);
-
-
 
   useEffect(() => {
     const retrieveBookList = async () => {
@@ -51,18 +46,10 @@ export const SearchBar = ({onSearch}) => {
                 sx={{width: 200}}
                 />}
       />
-        {filteredBooks ? (
-          <>
-          <Box>
-            <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} />
-          </Box>
-            </>            
-      ) : (
           <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SELECT</Button>
              <div data-testid="result" id="result"></div>
           </Box>
-            )} 
             </Box>
         </div>
         </div>

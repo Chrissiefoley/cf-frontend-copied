@@ -1,16 +1,9 @@
-import React, { useState, } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MyBookCard } from '../MyBookCard/MyBookCard.jsx';
-import { AddBookCard } from '../AddBookCard/AddBookCard.jsx';
-import { SearchBar } from '../SearchBar/SearchBar.jsx';
 import { Container, Link, Breadcrumbs } from '@mui/material';
 import './../../index.css';
 
 export const HeaderNav = () => {
-  const [isHomeVisible, setIsHomeVisible] = useState(true);
-  const [isAddBookVisible, setIsAddBookVisible] = useState(false);
-  const [isMyBooksVisible, setIsMyBooksVisible] = useState(false);
-  const [isMyReviewsVisible, setIsMyReviewsVisible] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -29,8 +22,6 @@ export const HeaderNav = () => {
           <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/new_book`);
         }}>Add book</Link>
-
-
       </Breadcrumbs>
       </Container>
   );

@@ -15,8 +15,7 @@ Core features outside of the CRUD functionality include:
 - User can search for books by title, with autocomplete feature, to filter specific book once data is fetched. 
 - User can sort books in the library by title or author in Asending or Descending order.
 - User can easily navigate the UI through navigation bar with links. 
-//- Responsive design for mobile and desktop devices.
-//- Accessibility features to ensure the application is accessible to all users.
+- Responsive design for mobile and desktop devices.
 - User can view the Total book count displayed on the My books page. 
 
 ## Tech Stack

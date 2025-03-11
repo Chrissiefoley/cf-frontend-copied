@@ -1,8 +1,7 @@
 import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { Container, Grid, Typography, Fab, Box, FormControl, InputLabel, Select, MenuItem, Link, Button } from '@mui/material';
+import { Container, Grid, Typography, Fab, Box, Button } from '@mui/material';
 import { getBooks, removeBook, updateBook } from  '../../client.js';
-import { SearchBar } from './../../components/SearchBar/SearchBar.jsx';
 import { MyBookCard } from './../../components/MyBookCard/MyBookCard.jsx';
 import { BookCount } from './../../components/BookCount/BookCount.jsx';
 import AddIcon from '@mui/icons-material/Add';

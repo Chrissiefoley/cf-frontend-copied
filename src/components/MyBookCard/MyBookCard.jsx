@@ -1,13 +1,11 @@
 import './../../index.css';
-import React, { useState, useEffect } from 'react';
-import { getBooks } from '../../client.js';
+import React, { useState } from 'react';
 import { EditBookCard } from './../../components/EditBookCard/EditBookCard.jsx';
 import { Card, Button, Typography, Rating, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 export const MyBookCard = ({ book, onRemove, onEdit }) => {
-  const { book_id, book_title, book_author, book_publishedDate, book_genre, book_description, book_rating } = book;
-  // const [seeMoreDescription, setSeeMoreDescription] = useState(null);
+  const { book_id, book_title, book_author, book_genre, book_description, book_rating } = book;
   const [editPopUp, setEditPopUp] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
