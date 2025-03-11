@@ -1,10 +1,8 @@
 import './index.css';
-import React, { useState, useEffect, useRef } from 'react';
-import { Container, Grid, Typography, Fab } from '@mui/material';
+import React, { useState } from 'react';
+import { Container, Grid, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useNavigate, createMemoryRouter, RouterProvider, Routes, Route } from 'react-router-dom';
-import { createClient } from '@supabase/supabase-js';
-import { supabase } from './supabaseClient.js';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { AddBookCard } from './components/AddBookCard/AddBookCard.jsx';
 import { HeaderNav } from './components/HeaderNav/HeaderNav.jsx';
 import { MyBookCard } from './components/MyBookCard/MyBookCard.jsx';
@@ -14,10 +12,6 @@ import { TopRated } from './components/TopRated/TopRated.jsx';
 import { ReactComponent as MyBookSVG } from './components/assets/undraw_reading-time_gcvc.svg';
 import { ReactComponent as MyBookTwoSVG } from './components/assets/undraw_reading_atc8.svg';
 import { ReactComponent as MyBookThreeSVG } from './components/assets/undraw_relaxed-reading_wfkr.svg';
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 
 
 export default function App() {
@@ -30,61 +24,36 @@ export default function App() {
     setFilteredBooks(searchResults.length > 0);
   }
 
-  const router = createMemoryRouter(
-    [
-      {
-        path: "/",
-        element: <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />,
-      },
-      {
-        path: "/books",
-        element: <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />,
-      },
-      {
-        path: "/favourite_books",
-        element: <TopRated />,
-      },
-      {
-        path: "/new_book",
-        element: <AddBookCard />,
-      },
-    ],
-    {
-      future: {
-        v7_relativeSplatPath: true,
-        v7_startTransition: true,
-      },
-    }
-  );
-
   return (
     <div>
-      <Container>
-      <RouterProviders router={router} />
+      <Container sx={{ padding: isMobile ? '10px' : '20px' }}>
+      <BrowserRouter>
         <HeaderNav />
           <SearchBar onSearch={handleSearch} />
           <Typography variant="h1" sx={{
-            fontSize: '36px',
+            fontSize: isMobile ? '24px' : '36px',
             color: '#A74165',
             textAlign: 'center',
             fontWeight: 'bold',
-            paddingTop: '20px'
+            paddingTop: '20px',
+            paddingBottom: '20px',
+            position: 'relative'
           }}>Personal Book Library</Typography>
           <Grid container spacing={1} justifyContent="space-between">
             {isMobile ? (
-              <Grid item>
-            <MyBookTwoSVG className="left-side" width="320px" height="400px" />
+              <Grid item xs={12}>
+            <MyBookTwoSVG className="left-side" width="100%" height="auto" />
               </Grid>
             ) : (
                 <>
             <Grid item>
-            <MyBookSVG className="left-side" width="320px" height="400px" />
+            <MyBookSVG className="left-side" width="100%" height="auto" />
           </Grid>
           <Grid item>
-            <MyBookTwoSVG className="left-side" width="320px" height="400px" />
+            <MyBookTwoSVG className="left-side" width="100%" height="auto" />
           </Grid>
           <Grid item>
-            <MyBookThreeSVG className="left-side" width="320px" height="400px" />
+            <MyBookThreeSVG className="left-side" width="100%" height="auto" />
                   </Grid>
                   </>
              )}
@@ -109,7 +78,7 @@ export default function App() {
             />
 
         </Routes>
-        </RouterProvider>
+        </BrowserRouter>
         </Container>
     </div>
   );

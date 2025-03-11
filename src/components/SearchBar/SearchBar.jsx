@@ -1,9 +1,7 @@
-import './../../index.css';
 import React, { useState, useEffect } from 'react';
-import { getBooks } from '../../client.js';
 import { Container, TextField, Button, Autocomplete, Box } from '@mui/material';
+import { getBooks } from '../../client.js';
 import { MyBookList } from './../../components/MyBookList/MyBookList.jsx';
-
 
 export const SearchBar = ({onSearch}) => {
   const [books, setBooks] = useState([]);

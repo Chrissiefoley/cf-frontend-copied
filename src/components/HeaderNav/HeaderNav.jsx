@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MyBookCard } from '../MyBookCard/MyBookCard.jsx';
 import { AddBookCard } from '../AddBookCard/AddBookCard.jsx';
@@ -29,16 +29,9 @@ export const HeaderNav = () => {
           <Link sx={{ color: '#ded2d4'}} onClick={() => {
             navigate(`/new_book`);
         }}>Add book</Link>
-          {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/ratings`);
-          }}>My reviews</Link> */}
-         {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/books`);
-          }}>All books</Link> */}
+
+
       </Breadcrumbs>
-        {/* {isMyBooksVisible && <MyBookCard />} */}
-        {/* {isMyReviewsVisible && <RatingsList />} */}
-        {/* {isAddBookVisible && <AddBookCard />} */}
       </Container>
   );
 };

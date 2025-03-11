@@ -87,7 +87,7 @@ export const MyBookList = ({ filteredBooks, searchResult, onClearFilter }) => {
             </Box>
           </Box>
         ) :
-          (<div style={{ paddingLeft:'70px', paddingTop: '50px' }}><Button sx={{fontSize: "1rem", color:"white", backgroundColor: "purple"}} onClick={handleClose}>SEE ALL</Button></div>)}
+          (<div style={{ paddingLeft:'70px', paddingTop: '50px' }}><Button sx={{fontSize: "1rem", color:"white", backgroundColor: "purple"}} onClick={handleClose}>GO BACK</Button></div>)}
       </Grid>
       </Container>
 )};

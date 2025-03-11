@@ -1,114 +1,11 @@
 body {
     background-color: #e3cfae;
-    /* background-image:
-    linear-gradient(90deg, rgba(0,0,0,0.1) 8px, transparent 1px),
-    linear-gradient(180deg, rgba(0,0,0,0.1) 8px, transparent 1px); */
     background-size: 50px 120px; 
     color: #fff;
     font-family: 'Arial', sans-serif;
-    margin: 100px 150px;
     padding: 20px;
 }
 
-/* body {
- background-image: url("wooden-table-with-blurred-background.avif");
- background-size: cover;
- background-repeat: no-repeat;
- background-color: #cccccc;
- background-position: center center;
- background-attachment: fixed;
-} */
-
-.pagetitle {
-    color: #A74165;
-    text-align: center;
-    justify-content: flex-start;
-}
-
-header {
-    background-color: #7600A8;
-    padding: 20px;
-    text-align: center;
-    font-size: 2em;
-    font-weight: bold;
-}
-
-button {
-    background-color: #8a2be2;
-    border: none;
-    color: white;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #211552;
-}
-
-
-a {
-    color: #a70C25;
-    text-decoration: none;
-}
-
-
-.aNav {
-    color: #ded2d4;
-    text-decoration: none;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-a:hover {
-    text-decoration: underline;
-    color:blue;
-}
-
-footer {
-    background-color: #4b0082;
-    padding: 10px;
-    text-align: center;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
-}
-
-h2 {
-    color: #3C1362;
-    text-decoration: none;
-    text-align: center;
-}
-
-h3 {
-    color: #A74165;
-    text-decoration: none;
-}
-
-.authortext {
-    font-style: italic;
-}
-
-.navbar {
-    background-color: #A74165;
-  color: #f0e3e5;
-  padding: 10px;
-  align-content: space-between;
-  justify-items: center;
-}
-
-
-.app-container {
-    width: 100%;
-    padding: 10px;
-    box-sizing: border-box;
-}
 
 .left-side {
     display: flex;
@@ -116,20 +13,6 @@ h3 {
     justify-content: center;
 }
 
-
-.container {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 10px;
-}
-
-.cardcontainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
 
 .card {
     background-color: #f1e1e0;
@@ -139,59 +22,6 @@ h3 {
     max-height: 300px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-}
-
-.addbook_card {
-    background-color: #da9c9a;
-    padding: 20px;
-    text-align: center;
-    width: 300px; 
-    height: 200px;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
-    justify-items: center; 
-}
-
-.removebutton {
-    background-color: #541192;
-    border: none;
-    color: white;
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px;
-    margin-right: 8px;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-}
-
-.removebutton:hover {
-    background-color: #211e2f;
-    color: #ffffff;
-}
-
-.editbutton {
-    background-color: #ddd8e1;
-    border-color:  #7e46ab;
-    color: rgb(0, 0, 0);
-    padding: 10px 10px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px;
-    margin-left: 8px;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: background-color 0.3s ease;
-}
-
-.editbutton:hover {
-    background-color: #211e2f;
-    color: #ffffff;
 }
 
 
@@ -208,12 +38,4 @@ h3 {
   justify-content: end;
   align-items: center;
   flex-wrap: wrap;
-}
-
-.search-input {
-  width: 300px;
-  padding: 10px;
-  border: 2px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
 }
