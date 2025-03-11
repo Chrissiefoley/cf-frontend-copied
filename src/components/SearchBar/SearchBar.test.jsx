@@ -1,7 +1,22 @@
 import React from "react";
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { SearchBar } from './SearchBar.jsx';
 import { getBooks } from "../../client.js";
+
+
+jest.mock("../../client.js", () => ({
+    getBooks: jest.fn().mockResolvedValue([]),
+}))
+
+jest.mock('./../../components/MyBookList/MyBookList.jsx', () => ({
+  MyBookList: ({ filteredBooks, searchResult }) => (
+    <div data-testid="mock-book-list">
+      {filteredBooks ? 'Books have been filtered' : 'Book are not filtered'}
+      {searchResult && searchResult.length > 0 ? 'Has search results' : 'Without search results'}
+    </div>
+  ),
+}));
 
 const mockGetBooks = [
     {
@@ -20,25 +35,35 @@ const mockGetBooks = [
     }
 ];
 
-jest.mock("../../client.js", () => ({
-    getBooks: jest.fn()
-}))
-
-beforeEach(() => {
-    getBooks.mockClear();
+describe('SearchBar Unit Tests', () => {
+    it('renders search bar and button', async () => {
+        render(<SearchBar />);
+        await waitFor(() => expect(getBooks).toHaveBeenCalled());
+        expect(screen.getByPlaceholderText(/Search for a book/i)).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /SELECT/i })).toBeInTheDocument();
+})
+    it('updates search bar content when user types', async () => {
+        render(<SearchBar />);
+        await waitFor(() => expect(getBooks).toHaveBeenCalled());
+        const searchInputText = screen.getByPlaceholderText(/Search for a book/i);
+        fireEvent.change(searchInputText, { target: { value: 'test'} });
+        expect(searchInputText.value).toEqual('test');
+    })
 });
 
-describe('SearchBar', () => {
-    it('renders search bar and button', () => {
-        render(<SearchBar />);
-        expect(screen.getByPlaceholderText(/Search for a book/i)).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: /Search/i })).toBeInTheDocument();
-        })
-    it('updates search bar content when user types', () => {
-        render(<SearchBar />);
-        const searchInputText = screen.getByRole('textbox', { name: /Search for a book/i });
-        // console.log(searchInputText);
-        fireEvent.change(searchInputText, { target: { value: 'test'} });
-        expect(searchInputText).toEqual('test');
-    })
+describe('SearchBar Integration', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    getBooks.mockResolvedValue(mockGetBooks);
+  });
+
+  test('integrates with MyBookList when displaying filtered books', async () => {
+    render(<SearchBar />);
+    
+    await waitFor(() => expect(getBooks).toHaveBeenCalled());
+    expect(screen.queryByText('My Book List')).not.toBeInTheDocument();
+    expect(screen.queryByText(/search result/i)).not.toBeInTheDocument();
+    expect(screen.getByText('SELECT')).toBeInTheDocument();
+    expect(screen.getByTestId('result')).toBeInTheDocument();
+  });
 });

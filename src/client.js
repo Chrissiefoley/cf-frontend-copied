@@ -58,7 +58,7 @@ export const postBook = async (newBook) => {
 
 export const updateBook = async (updatedBookInformation) => {
   try {
-    const response = await fetch(`http://localhost:8080/api/books/${updatedBookInformation.book_id}`, {
+    const response = await fetch(`http://localhost:8080/api/update_book/${updatedBookInformation.book_id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const updateBook = async (updatedBookInformation) => {
 
 
 export const removeBook = async (book_id) => {
-  const response = await fetch(`http://localhost:8080/api/books/${book_id}`, {
+  const response = await fetch(`http://localhost:8080/api/delete_book/${book_id}`, {
     method: "DELETE",
     headers: {
       "Content-Type": "application/json",

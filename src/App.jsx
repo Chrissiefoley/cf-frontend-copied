@@ -2,10 +2,8 @@ import './index.css';
 import React, { useState, useEffect, useRef } from 'react';
 import { Container, Grid, Typography, Fab } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { useNavigate, BrowserRouter, Routes, Route} from 'react-router-dom';
+import { useNavigate, createMemoryRouter, RouterProvider, Routes, Route } from 'react-router-dom';
 import { createClient } from '@supabase/supabase-js';
-import { Auth } from '@supabase/auth-ui-react';
-import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { supabase } from './supabaseClient.js';
 import { AddBookCard } from './components/AddBookCard/AddBookCard.jsx';
 import { HeaderNav } from './components/HeaderNav/HeaderNav.jsx';
@@ -32,10 +30,37 @@ export default function App() {
     setFilteredBooks(searchResults.length > 0);
   }
 
+  const router = createMemoryRouter(
+    [
+      {
+        path: "/",
+        element: <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />,
+      },
+      {
+        path: "/books",
+        element: <MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />,
+      },
+      {
+        path: "/favourite_books",
+        element: <TopRated />,
+      },
+      {
+        path: "/new_book",
+        element: <AddBookCard />,
+      },
+    ],
+    {
+      future: {
+        v7_relativeSplatPath: true,
+        v7_startTransition: true,
+      },
+    }
+  );
+
   return (
     <div>
       <Container>
-      <BrowserRouter>
+      <RouterProviders router={router} />
         <HeaderNav />
           <SearchBar onSearch={handleSearch} />
           <Typography variant="h1" sx={{
@@ -74,17 +99,17 @@ export default function App() {
           exact path="/books"
           element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
           />
-          <Route
+          {/* <Route
           exact path="/favourite_books"
           element={<TopRated />}
-          />
+          /> */}
         <Route
           exact path="/new_book"
           element={<AddBookCard />}
             />
 
         </Routes>
-        </BrowserRouter>
+        </RouterProvider>
         </Container>
     </div>
   );

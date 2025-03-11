@@ -51,6 +51,7 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
       };
       onEdit(updatedBook);
       handleClose();
+      getBooks();
     } catch (error) {
       console.error("Failed update:", error)
     }

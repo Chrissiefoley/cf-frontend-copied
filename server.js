@@ -72,7 +72,7 @@ app.post("/api/new_book", async (req, res) => {
 
 
 //New DELETE endpoint
-app.delete("/api/books/:book_id", async (req, res) => {
+app.delete("/api/delete_book/:book_id", async (req, res) => {
   try {
     const { book_id } = req.params;
 
@@ -101,7 +101,7 @@ app.delete("/api/books/:book_id", async (req, res) => {
 
 
 // New PUT(Update) endpoint
-app.put("/api/books/:book_id", async (req, res) => {
+app.put("/api/update_book/:book_id", async (req, res) => {
   try {
     const { book_id } = req.params;
     const response = await fetch(`${SUPABASE_URL}/functions/v1/books`, {

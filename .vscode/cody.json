@@ -1,0 +1,18 @@
+{
+  "Curate-readme-content": {
+    "description": "Curate readme content",
+    "prompt": "Create the contents of a read me file for this project so someone coming with no prior knowledge of the project will understand its contents/what its about/how to run and test etc... ",
+    "mode": "ask",
+    "context": {
+      "codebase": false,
+      "command": "",
+      "currentDir": false,
+      "currentFile": false,
+      "directoryPath": "<rootDir>",
+      "filePath": "",
+      "none": false,
+      "openTabs": false,
+      "selection": false
+    }
+  }
+}

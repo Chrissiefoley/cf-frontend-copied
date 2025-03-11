@@ -62,7 +62,7 @@ export const SearchBar = ({onSearch}) => {
       ) : (
           <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SELECT</Button>
-             <div id="result"></div>
+             <div data-testid="result" id="result"></div>
           </Box>
             )} 
             </Box>
