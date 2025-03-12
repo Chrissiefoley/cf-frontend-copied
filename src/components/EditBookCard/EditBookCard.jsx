@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { postBook, getBooks } from '../../client.js';
 import { Popover, Card, TextField, Rating, Button } from '@mui/material';
 import { updateBook } from '../../client.js';
+import { useNavigate } from "react-router-dom";
 
-
-export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
+export const EditBookCard = ({ onEdit, book, anchorEl, setAnchorEl }) => {
   const [newTitle, setNewTitle] = useState("");
   const [newAuthor, setNewAuthor] = useState("");
   const [newPublishedDate, setNewPublishedDate] = useState("");
@@ -13,6 +13,10 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
   const [newDescription, setNewDescription] = useState("");
   const [newRating, setNewRating] = useState(0);
   const [hover, setHover] = useState(-1);
+
+  const navigate = useNavigate();
+
+  console.log(book);
 
   useEffect(() => {
     if (book) {
@@ -50,7 +54,6 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
       };
       onEdit(updatedBook);
       handleClose();
-      getBooks();
     } catch (error) {
       console.error("Failed update:", error);
     }
