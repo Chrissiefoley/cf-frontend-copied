@@ -10,7 +10,7 @@ export const HeaderNav = () => {
     <Container>
       <Breadcrumbs aria-label="breadcrumb" sx={{backgroundColor: '#A74165', color: '#f0e3e5', alignContent: 'space-between', justifyItems: 'center', padding: '10px'}}>
         <Link sx={{ color: '#ded2d4'}} onClick={() => {
-          navigate(`/1`);
+          navigate(`/`);
         }}>Home</Link>
         <Link sx={{ color: '#ded2d4'}} onClick={() => {
           navigate(`/books`);

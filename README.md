@@ -29,15 +29,15 @@ Core features outside of the CRUD functionality include:
 
 ## Setup and Running App 
 1. Install dependencies: Run `npm install` in your terminal to install all necessary dependencies. This includes React, Material UI, Babel, Jest and other required packages.
-2. To run the project - First open the backend application (GITHUB LINK) and run `npx supabase start` in the backend project terminal start local Docker-based Supabase instance.
-3. Then open the front end application (GITHUB LINK) and run:
+2. To run the project - First open the backend application (https://github.com/Chrissiefoley/cf-frontend-copied) and run `npx supabase start` in the backend project terminal start local Docker-based Supabase instance.
+3. Then open the front end application (https://github.com/Chrissiefoley/cf-frontend-copied) and run:
  - `Node server.js` in your terminal to get the express server running with the 8080 port. 
  - Open a second terminal and run `Npm start` to get the react app running with the 3000 port to ensure both are running in sync. 
 4. Open your web browser and navigate to `http://localhost:3000` to access the application to view the application. 
 
 ## Database Management
 The project uses Supabase as the database provider:
-The [companion backend app](https://github.com/jdowie-ada/apa1-supa-task-backend) will be used to manage the database. 
+The [companion backend app](https://github.com/Chrissiefoley/cf-backend-copied) will be used to manage the database. 
 
 ## Testing
 Testing is achieved through:
