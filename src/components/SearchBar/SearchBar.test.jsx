@@ -51,7 +51,7 @@ describe('SearchBar Unit Tests', () => {
     })
 });
 
-describe('SearchBar Integration', () => {
+describe('SearchBar Integration Test', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     getBooks.mockResolvedValue(mockGetBooks);

@@ -15,7 +15,7 @@ jest.mock("./../../components/MyBookList/MyBookList", () => ({
   MyBookList: () => <div data-testid="my-book-list">Mocked Book List</div>,
 }));
 
-describe("AddBookCard", () => {
+describe("AddBookCard Unit Tests", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -41,7 +41,6 @@ describe("AddBookCard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/Rate the book/i)).toBeInTheDocument();
   });
-
 
   it("should display validation errors for empty fields", async () => {
     const mockPostBook = require("../../client").postBook;
@@ -78,5 +77,4 @@ describe("AddBookCard", () => {
       ).toBeInTheDocument();
     });
   });
-
 });
