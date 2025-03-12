@@ -6,7 +6,7 @@ It includes CRUD functionality where a user can do the following with Express AP
 
 C - Create a new book and add to their library - Add a new book with book details such as title, author, genre, and publication date via POST request: `api/new_book`.
 R - Retrieve and read a list of the books in their library - Fetch all books through GET request: `api/books`. 
-U - Update information about their books via edit form feature and PUT request to update database: `api/edit_book/:book_id`. 
+U - Update information about their books via edit form feature and PUT request to update database: `api/update_book/:book_id`. 
 D - Delete a book from their library if they no longer own it using delete button on each book card: `api/delete_book/:book_id`. 
 
 Core features outside of the CRUD functionality include:
