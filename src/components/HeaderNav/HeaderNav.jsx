@@ -8,22 +8,18 @@ export const HeaderNav = () => {
 
   return (
     <Container>
-      <Breadcrumbs aria-label="breadcrumb" sx={{backgroundColor: '#A74165', color: '#f0e3e5',
-  alignContent: 'space-between', justifyItems: 'center', padding: '10px'}}>
-      <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/1`);
+      <Breadcrumbs aria-label="breadcrumb" sx={{backgroundColor: '#A74165', color: '#f0e3e5', alignContent: 'space-between', justifyItems: 'center', padding: '10px'}}>
+        <Link sx={{ color: '#ded2d4'}} onClick={() => {
+          navigate(`/1`);
         }}>Home</Link>
-           <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/books`);
+        <Link sx={{ color: '#ded2d4'}} onClick={() => {
+          navigate(`/books`);
         }}>My books</Link>
-        {/* <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/favourite_books`);
-          }}>Favourite books</Link> */}
-          <Link sx={{ color: '#ded2d4'}} onClick={() => {
-            navigate(`/new_book`);
+        <Link sx={{ color: '#ded2d4'}} onClick={() => {
+          navigate(`/new_book`);
         }}>Add book</Link>
       </Breadcrumbs>
-      </Container>
+    </Container>
   );
 };
         

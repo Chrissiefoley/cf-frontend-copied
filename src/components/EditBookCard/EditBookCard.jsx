@@ -21,10 +21,9 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
       setNewPublishedDate(book.book_publishedDate);
       setNewGenre(book.book_genre);
       setNewDescription(book.book_description);
-      setNewRating(book.book_rating)
+      setNewRating(book.book_rating);
     }
   }, [book]);
-
 
   const handleEdit = async () => {
     try {
@@ -35,10 +34,10 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
           book_publishedDate: newPublishedDate,
           book_genre: newGenre,
           book_description: newDescription,
-          book_rating: newRating
+          book_rating: newRating,
         },
-        book_id: book.book_id
-        };
+        book_id: book.book_id,
+      };
       await updateBook(updatedBookInformation);
       const updatedBook = {
         book_id: book.book_id,
@@ -47,28 +46,28 @@ export const EditBookCard = ({onEdit, book, anchorEl, setAnchorEl}) => {
         book_publishedDate: newPublishedDate,
         book_genre: newGenre,
         book_description: newDescription,
-        book_rating: newRating
+        book_rating: newRating,
       };
       onEdit(updatedBook);
       handleClose();
       getBooks();
     } catch (error) {
-      console.error("Failed update:", error)
+      console.error("Failed update:", error);
     }
   };
 
   const handleClose = () => {
     setAnchorEl(null);
-  }
+  };
 
-const isOpen = Boolean(anchorEl);
-const id = isOpen ? 'simple-popover' : undefined;
+  const isOpen = Boolean(anchorEl);
+  const id = isOpen ? "simple-popover" : undefined;
 
   return (
-<div>
-    <Popover id={id} open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
-      <Card sx={{ maxWidth: 250}} key={book.book_id}>
-      <TextField
+    <div>
+      <Popover id={id} open={isOpen} anchorEl={anchorEl} onClose={handleClose}>
+        <Card sx={{ maxWidth: 250 }} key={book.book_id}>
+          <TextField
             required
             className="inputBar"
             type="text"
@@ -97,7 +96,7 @@ const id = isOpen ? 'simple-popover' : undefined;
           <TextField
             required
             className="inputBar"
-            type="text"
+            type="number"
             placeholder="Published date"
             name="book_publishedDate"
             aria-label="Published date"
@@ -133,24 +132,25 @@ const id = isOpen ? 'simple-popover' : undefined;
               setNewDescription(e.target.value);
             }}
           />
-            <Rating
-              name="book_rating"
-              defaultValue={0}
-              value={newRating}
-              aria-label="Rating"
-              role="textbox"
-              size="small"
-              precision={0.5}
-              onChange={(e, newRating) => {
-                setNewRating(newRating);
-              }}
-              onChangeActive={(event, newHover) => {
-                setHover(newHover);
-              }} />
+          <Rating
+            name="book_rating"
+            defaultValue={0}
+            value={newRating}
+            aria-label="Rating"
+            role="textbox"
+            size="small"
+            precision={0.5}
+            onChange={(e, newRating) => {
+              setNewRating(newRating);
+            }}
+            onChangeActive={(event, newHover) => {
+              setHover(newHover);
+            }}
+          />
           <Button onClick={handleEdit}>Submit changes</Button>
           <Button onClick={handleClose}>Close</Button>
-            </Card>
-          </Popover>
-      </div>
-    );
+        </Card>
+      </Popover>
+    </div>
+  );
 };

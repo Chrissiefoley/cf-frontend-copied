@@ -19,40 +19,63 @@ export const SearchBar = ({onSearch}) => {
   }, []);
 
   const handleSearch = () => {
-    const result = books.filter(book => book.book_title.toLowerCase() === (searchTerm.toLowerCase()))
+    const result = books.filter(
+      (book) => book.book_title.toLowerCase() === searchTerm.toLowerCase()
+    );
     if (onSearch) {
-    onSearch(result);
-  }};
+      onSearch(result);
+    }
+  };
 
   return (
     <Container>
-    <div className="outer-container">
-    <div className="bar-container">
-    <Box sx={{ paddingTop: 2, paddingBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'center'}}>
-          <Autocomplete 
-            freeSolo
-            options={books.map((book) => book.book_title)}
-            onInputChange={(event, value) => {
-              setSearchTerm(value);
+      <div className="outer-container">
+        <div className="bar-container">
+          <Box
+            sx={{
+              paddingTop: 2,
+              paddingBottom: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
             }}
-            renderInput={(params) =>
-              <TextField
-                {...params}
-                className="search-input"
-                type="text"
-                placeholder="Search for a book"
-                aria-label="Search bar"
-                role="textbox"
-                sx={{width: 200}}
-                />}
-      />
-          <Box sx={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
-            <Button onClick={handleSearch} sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}>SELECT</Button>
-             <div data-testid="result" id="result"></div>
-          </Box>
+          >
+            <Autocomplete
+              freeSolo
+              options={books.map((book) => book.book_title)}
+              onInputChange={(event, value) => {
+                setSearchTerm(value);
+              }}
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  className="search-input"
+                  type="text"
+                  placeholder="Search for a book"
+                  aria-label="Search bar"
+                  role="textbox"
+                  sx={{ width: 200 }}
+                />
+              )}
+            />
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <Button
+                onClick={handleSearch}
+                sx={{ marginLeft: 2, paddingLeft: 2, paddingRight: 2 }}
+              >
+                SELECT
+              </Button>
+              <div data-testid="result" id="result"></div>
             </Box>
+          </Box>
         </div>
-        </div>
-      </Container>
+      </div>
+    </Container>
   );
 };

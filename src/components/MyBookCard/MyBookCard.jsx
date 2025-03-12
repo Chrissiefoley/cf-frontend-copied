@@ -17,74 +17,110 @@ export const MyBookCard = ({ book, onRemove, onEdit }) => {
     onEdit(book);
     setEditPopUp(false);
     setAnchorEl(null);
-  }
+  };
 
   const editPopOver = (event) => {
     setEditPopUp(true);
     setAnchorEl(event.currentTarget);
-  }
-  
+  };
+
   const clipDescription = (book_description) => {
     const maxLength = 100;
     if (book_description && book_description.length > 100) {
-      return book_description.substring(0, maxLength) + '...';
+      return book_description.substring(0, maxLength) + "...";
     }
     return book_description || "";
-  }
-  
+  };
+
   return (
     <div>
       <Card sx={{ maxWidth: 250, height: 320 }} key={book_id}>
-        <Typography variant="subtitle1" sx={{
-            fontSize: '18px',
-            color: '#A74165',
-            textAlign: 'center',
-            fontWeight: 'bold',
-          paddingTop: '10px',
-          margin: '5px',
-            lineHeight: '1.2',
-        }}>{book_title}</Typography>
-          <Typography variant="subtitle2" sx={{
-            textAlign: 'center',
-            fontWeight: 'bold',
-          paddingTop: '10px',
-            margin: '5px',
-        }}>{book_author}</Typography>
-        <Typography variant="body2" sx={{
-            textAlign: 'center',
-          paddingTop: '5px',
-           margin: '5px',
-        }}>{clipDescription(book_description)}</Typography>
-        <Typography variant="body2" sx={{
-            textAlign: 'center',
-          paddingTop: '5px',
-           margin: '5px',
-        }}>{book_genre}</Typography>
-         <Box
-      display="flex"
-      justifyContent="center"
+        <Typography
+          variant="subtitle1"
+          sx={{
+            fontSize: "18px",
+            color: "#A74165",
+            textAlign: "center",
+            fontWeight: "bold",
+            paddingTop: "10px",
+            margin: "5px",
+            lineHeight: "1.2",
+          }}
+        >
+          {book_title}
+        </Typography>
+        <Typography
+          variant="subtitle2"
+          sx={{
+            textAlign: "center",
+            fontWeight: "bold",
+            paddingTop: "10px",
+            margin: "5px",
+          }}
+        >
+          {book_author}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            textAlign: "center",
+            paddingTop: "5px",
+            margin: "5px",
+          }}
+        >
+          {clipDescription(book_description)}
+        </Typography>
+        <Typography
+          variant="body2"
+          sx={{
+            textAlign: "center",
+            paddingTop: "5px",
+            margin: "5px",
+          }}
+        >
+          {book_genre}
+        </Typography>
+        <Box
+          display="flex"
+          justifyContent="center"
           alignItems="center"
-          sx={{paddingTop:"10px"}}
-    >
-        <Rating
-          name="book_rating"
-          size="small"
-          value={book_rating}
-          precision={0.5}
-          readOnly
-          ></Rating>
+          sx={{ paddingTop: "10px" }}
+        >
+          <Rating
+            name="book_rating"
+            size="small"
+            value={book_rating}
+            precision={0.5}
+            readOnly
+          />
         </Box>
-         <Typography variant="body2" sx={{
-            textAlign: 'center',
-          paddingTop: '5px',
-           margin: '5px',
-          }}></Typography>
-        <Button variant="text" onClick={handleRemove} startIcon={<DeleteIcon />}>Remove book</Button>
-        <Button variant="text" color="secondary" onClick={editPopOver}>Edit book</Button>
+        <Typography
+          variant="body2"
+          sx={{
+            textAlign: "center",
+            paddingTop: "5px",
+            margin: "5px",
+          }}
+        ></Typography>
+        <Button
+          variant="text"
+          onClick={handleRemove}
+          startIcon={<DeleteIcon />}
+        >
+          Remove book
+        </Button>
+        <Button variant="text" color="secondary" onClick={editPopOver}>
+          Edit book
+        </Button>
         {editPopUp && (
-          <EditBookCard book={book} onEdit={handleEdit} anchorEl={anchorEl} setAnchorEl={setAnchorEl} />
+          <EditBookCard
+            book={book}
+            onEdit={handleEdit}
+            anchorEl={anchorEl}
+            setAnchorEl={setAnchorEl}
+          />
         )}
-        </Card>
+      </Card>
     </div>
   );
 };

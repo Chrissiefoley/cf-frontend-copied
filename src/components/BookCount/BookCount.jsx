@@ -1,9 +1,21 @@
-import './../../index.css';
-import React, { useState, useEffect } from 'react';
-import { Typography } from '@mui/material';
+import "./../../index.css";
+import React, { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
 
-export const BookCount = ({count}) => {
-
-  return <Typography variant = "h2" sx = {{ fontSize: '28px', fontWeight: 'bold', color: '#3C1362', textAlign: 'center', paddingLeft: '20px', paddingTop: '20px' }
-}>Book count: { count }</Typography>;
-  };
+export const BookCount = ({ count }) => {
+  return (
+    <Typography
+      variant="h2"
+      sx={{
+        fontSize: "28px",
+        fontWeight: "bold",
+        color: "#3C1362",
+        textAlign: "center",
+        paddingLeft: "20px",
+        paddingTop: "20px",
+      }}
+    >
+      Book count: {count}
+    </Typography>
+  );
+};

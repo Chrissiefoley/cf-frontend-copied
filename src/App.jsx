@@ -20,60 +20,93 @@ export default function App() {
   const handleSearch = (searchResults) => {
     setSearchResult(searchResults);
     setFilteredBooks(searchResults.length > 0);
-  }
+  };
 
   return (
     <div>
-      <Container sx={{ padding: isMobile ? '10px' : '20px' }}>
-      <BrowserRouter>
-        <HeaderNav />
+      <Container sx={{ padding: isMobile ? "10px" : "20px" }}>
+        <BrowserRouter>
+          <HeaderNav />
           <SearchBar onSearch={handleSearch} />
-          <Typography variant="h1" sx={{
-            fontSize: isMobile ? '24px' : '36px',
-            color: '#A74165',
-            textAlign: 'center',
-            fontWeight: 'bold',
-            paddingTop: '20px',
-            paddingBottom: '20px',
-            position: 'relative'
-          }}>Personal Book Library</Typography>
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: isMobile ? "24px" : "36px",
+              color: "#A74165",
+              textAlign: "center",
+              fontWeight: "bold",
+              paddingTop: "20px",
+              paddingBottom: "20px",
+              position: "relative",
+            }}
+          >
+            Personal Book Library
+          </Typography>
           <Grid container spacing={1} justifyContent="space-between">
             {isMobile ? (
               <Grid item xs={12}>
-            <MyBookTwoSVG className="left-side" width="100%" height="auto" />
+                <MyBookTwoSVG
+                  className="left-side"
+                  width="100%"
+                  height="auto"
+                />
               </Grid>
             ) : (
-                <>
-            <Grid item>
-            <MyBookSVG className="left-side" width="100%" height="auto" />
+              <>
+                <Grid item>
+                  <MyBookSVG className="left-side" width="100%" height="auto" />
+                </Grid>
+                <Grid item>
+                  <MyBookTwoSVG
+                    className="left-side"
+                    width="100%"
+                    height="auto"
+                  />
+                </Grid>
+                <Grid item>
+                  <MyBookThreeSVG
+                    className="left-side"
+                    width="100%"
+                    height="auto"
+                  />
+                </Grid>
+              </>
+            )}
           </Grid>
-          <Grid item>
-            <MyBookTwoSVG className="left-side" width="100%" height="auto" />
-          </Grid>
-          <Grid item>
-            <MyBookThreeSVG className="left-side" width="100%" height="auto" />
-                  </Grid>
-                  </>
-             )}
-          </Grid>
-           <div style={{ marginTop: '20px' }}></div>
+          <div style={{ marginTop: "20px" }}></div>
           <Routes>
             <Route
-              exact path="/"
-              element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
-          />
-        <Route
-          exact path="/books"
-          element={<MyBookList filteredBooks={filteredBooks} searchResult={searchResult} onClearFilter={() => { setFilteredBooks(false); setSearchResult([]) }} />}
-          />
-        <Route
-          exact path="/new_book"
-          element={<AddBookCard />}
+              exact
+              path="/"
+              element={
+                <MyBookList
+                  filteredBooks={filteredBooks}
+                  searchResult={searchResult}
+                  onClearFilter={() => {
+                    setFilteredBooks(false);
+                    setSearchResult([]);
+                  }}
+                />
+              }
             />
-
-        </Routes>
+            <Route
+              exact
+              path="/books"
+              element={
+                <MyBookList
+                  filteredBooks={filteredBooks}
+                  searchResult={searchResult}
+                  onClearFilter={() => {
+                    setFilteredBooks(false);
+                    setSearchResult([]);
+                  }}
+                />
+              }
+            />
+            <Route exact path="/new_book" element={<AddBookCard />} />
+          </Routes>
         </BrowserRouter>
-        </Container>
+      </Container>
     </div>
   );
 };
