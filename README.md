@@ -10,7 +10,6 @@ U - Update information about their books via edit form feature and PUT request t
 D - Delete a book from their library if they no longer own it using delete button on each book card: `api/delete_book/:book_id`. 
 
 Core features outside of the CRUD functionality include:
-// Update to show how a user can interact with it..... 
 - Utilising React app and Material UI to build components. 
 - User can search for books by title, with autocomplete feature, to filter specific book once data is fetched. 
 - User can sort books in the library by title or author in Asending or Descending order.
