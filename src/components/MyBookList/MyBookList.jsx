@@ -48,14 +48,12 @@ export const MyBookList = ({ filteredBooks, searchResult, onClearFilter }) => {
 
   const updateBookInfo = async (updatedBook) => {
     try {
-      await updateBook("updated book:", updatedBook);
-      console.log(updatedBook);
-      setBooks((prevBooks) => {
-        console.log("prevBooks:", prevBooks);
+      await updateBook(updatedBook);
+      setBooks((prevBooks) =>
         prevBooks.map((book) =>
           book.book_id === updatedBook.book_id ? updatedBook : book
-        );
-      });
+        )
+      );
     } catch (error) {
       console.error("Not able to update book", error);
     }

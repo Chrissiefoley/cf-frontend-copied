@@ -16,8 +16,6 @@ export const EditBookCard = ({ onEdit, book, anchorEl, setAnchorEl }) => {
 
   const navigate = useNavigate();
 
-  console.log(book);
-
   useEffect(() => {
     if (book) {
       setNewTitle(book.book_title);
