@@ -44,3 +44,7 @@ Testing is achieved through:
 - Manual testing through the application interface to verify that the functionality is working as expected with console.log statements in the browser console to check for errors and debugging. 
 - Some unit tests using Jest and React Testing Library in component files to test individual components/functions and integrations. 
 
+## Future Improvements 
+- Implement filter by functionality with genre, author and rating.
+- Add in review page to show reviews and ratings with review database.
+- Favourite books feature to allow user to drag their top 5 fives and save into their favourite books database. 
