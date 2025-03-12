@@ -59,6 +59,9 @@ export const AddBookCard = () => {
         error.message || "Book cannot be added. Please check your input."
       );
       setAlertShow(true);
+      setTimeout(() => {
+        navigate("/");
+      }, 4000);
     }
   };
 
