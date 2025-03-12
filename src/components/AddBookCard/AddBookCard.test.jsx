@@ -41,4 +41,42 @@ describe("AddBookCard", () => {
     ).toBeInTheDocument();
     expect(screen.getByText(/Rate the book/i)).toBeInTheDocument();
   });
+
+
+  it("should display validation errors for empty fields", async () => {
+    const mockPostBook = require("../../client").postBook;
+    mockPostBook.mockRejectedValueOnce(
+      new Error("Book cannot be added. Please check your input")
+    );
+
+    render(
+      <BrowserRouter>
+        <AddBookCard />
+      </BrowserRouter>
+    );
+
+    userEvent.type(
+      screen.getByRole("textbox", { name: /book title/i }),
+      "Test Book"
+    );
+    userEvent.type(
+      screen.getByRole("textbox", { name: /author name/i }),
+      "Test Author"
+    );
+    userEvent.type(
+      screen.getByRole("textbox", { name: "Published date (yyyy)" }),
+      "2023"
+    );
+    userEvent.type(screen.getByRole("textbox", { name: /genre/i }), "Fiction");
+
+    const submitButton = screen.getByRole("button", { name: /add book/i });
+    userEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(/Book cannot be added. Please check your input/i)
+      ).toBeInTheDocument();
+    });
+  });
+
 });
