@@ -203,7 +203,7 @@ export const AddBookCard = () => {
           onClick={handleAddBook}
           sx={{
             backgroundColor: "#6c63ff",
-            "&:hover": { backgroundColour: "#211e2f" },
+            "&:hover": { backgroundColor: "#211e2f" },
             marginTop: 2,
             padding: 2,
           }}
